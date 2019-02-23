@@ -6,6 +6,6 @@
 # “publish” is the directory to publish (relative to the root of your repo).
 
 [build]
-  base    = "./front-end"
-  command = "next build"
-  publish = "./front-end/.next"
+  base    = "front-end/"
+  command = "npm run build"
+  publish = "front-end/.next/"
