@@ -40,7 +40,13 @@ const MapComponent = compose(
     setMarkerId,
     clearMarkerId
   } = useMarker();
-  const { isTrashActive, enableTrash, disableTrash } = useTrash();
+  const {
+    isTrashActive,
+    enableTrash,
+    disableTrash,
+    inTrashArea,
+    setInTrashArea
+  } = useTrash();
   return (
     <GoogleMap
       defaultZoom={6}
@@ -53,7 +59,11 @@ const MapComponent = compose(
     >
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash isTrashActive={isTrashActive} deleteMarker={deleteMarker} />
+      <Trash
+        isTrashActive={isTrashActive}
+        deleteMarker={deleteMarker}
+        setInTrashArea={setInTrashArea}
+      />
       {markers.map(mark => {
         return (
           <Marker
@@ -63,7 +73,13 @@ const MapComponent = compose(
             label={mark.label}
             onDragStart={() => setMarkerId(mark.id)}
             onDrag={enableTrash}
-            onDragEnd={disableTrash}
+            onDragEnd={() => {
+              if (isTrashActive && inTrashArea) {
+                deleteMarker(mark.id);
+              }
+              disableTrash();
+              clearMarkerId();
+            }}
             className="marker"
             role="marker"
           />

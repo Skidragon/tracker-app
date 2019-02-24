@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, Icon } from "antd";
-
+import DeleteTooltip from "./DeleteTooltip";
 const TrashWrapper = styled(Button)`
   position: absolute;
   font-size: 3em;
@@ -11,12 +11,16 @@ const TrashWrapper = styled(Button)`
 `;
 const Trash = props => {
   return (
-    <TrashWrapper
-      type={"danger"}
-      shape={"circle"}
-      icon={"delete"}
-      disabled={!props.isTrashActive}
-    />
+    <DeleteTooltip>
+      <TrashWrapper
+        type={"danger"}
+        shape={"circle"}
+        icon={"delete"}
+        disabled={!props.isTrashActive}
+        onMouseEnter={() => props.setInTrashArea(true)}
+        onMouseLeave={() => props.setInTrashArea(false)}
+      />
+    </DeleteTooltip>
   );
 };
 
