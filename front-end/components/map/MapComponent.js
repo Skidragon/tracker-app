@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { compose, withProps } from "recompose";
 import {
   withScriptjs,
@@ -6,6 +7,7 @@ import {
   Marker
 } from "react-google-maps";
 import ProgressCircle from "./styles/ProgressCircle";
+import OptionsMenu from "./styles/OptionsMenu";
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -25,6 +27,7 @@ const MapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => {
+  const [markers, setMarkers] = useState([]);
   return (
     <GoogleMap
       defaultZoom={6}
@@ -33,8 +36,13 @@ const MapComponent = compose(
       }}
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
+      <OptionsMenu />
       <ProgressCircle percent={50} />
-      <Marker draggable={true} position={{ lat: -34.397, lng: 150.644 }} />
+      <Marker
+        draggable={true}
+        position={{ lat: -34.397, lng: 150.644 }}
+        label={"a"}
+      />
     </GoogleMap>
   );
 });
