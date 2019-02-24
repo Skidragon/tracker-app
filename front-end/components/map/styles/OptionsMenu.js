@@ -1,6 +1,11 @@
 import { Menu, Dropdown, Button, Icon, Avatar, Badge } from "antd";
 import styled from "styled-components";
-import { nominalTypeHack } from "prop-types";
+
+const OptionsMenuWrapper = styled.div`
+  position: absolute;
+  left: 3%;
+  bottom: 5%;
+`;
 
 const OptionsMenu = props => (
   <OptionsMenuWrapper>
@@ -13,6 +18,7 @@ const OptionsMenu = props => (
   </OptionsMenuWrapper>
 );
 
+//The menu that appears when OptionsMenu has been hovered
 const MenuItem = styled(Menu.Item)`
   background: ${props => props.theme.white};
 `;
@@ -40,9 +46,4 @@ const OverlayMenu = props => (
   </MainMenu>
 );
 
-const OptionsMenuWrapper = styled.div`
-  position: absolute;
-  left: 3%;
-  bottom: 5%;
-`;
 export default OptionsMenu;
