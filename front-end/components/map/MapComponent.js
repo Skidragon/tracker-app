@@ -8,6 +8,7 @@ import {
 } from "react-google-maps";
 import ProgressCircle from "./styles/ProgressCircle";
 import OptionsMenu from "./styles/OptionsMenu";
+import Trash from "./styles/Trash";
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -38,6 +39,7 @@ const MapComponent = compose(
     >
       <OptionsMenu />
       <ProgressCircle percent={50} />
+      <Trash />
       <Marker
         draggable={true}
         position={{ lat: -34.397, lng: 150.644 }}
