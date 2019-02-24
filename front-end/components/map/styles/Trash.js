@@ -10,7 +10,14 @@ const TrashWrapper = styled(Button)`
   right: 3%;
 `;
 const Trash = props => {
-  return <TrashWrapper type={"danger"} shape={"circle"} icon={"delete"} />;
+  return (
+    <TrashWrapper
+      type={"danger"}
+      shape={"circle"}
+      icon={"delete"}
+      disabled={!props.isTrashActive}
+    />
+  );
 };
 
 export default Trash;

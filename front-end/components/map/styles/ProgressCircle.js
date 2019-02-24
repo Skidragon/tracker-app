@@ -8,38 +8,41 @@ const ProgressWrapper = styled(Progress)`
   background: ${props => props.theme.white};
   border-radius: 50%;
 `;
-const InsideCircle = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  background: red;
-`;
+
 const ProgressCircle = ({ markers }) => {
+  const markerCalculations = calculateForProgress(markers);
   return (
     <ProgressWrapper
       type="circle"
-      percent={calculatePercent(markers)}
+      percent={markerCalculations.getPercentProgress}
       strokeWidth={15}
       strokeLinecap={"square"}
-      format={percent => {
-        return `0 / ${markers.length}`;
+      format={() => {
+        return markers.length > 0
+          ? `${markerCalculations.getMarkersReached} / ${markers.length}`
+          : `0 / 0`;
       }}
+      data-testid="progress-circle"
     />
   );
 };
 
-const calculatePercent = markers => {
+const calculateForProgress = markers => {
   if (markers.length === 0) {
     return 0;
   }
-  let countCompleted = 0;
+  let countMarkersReached = 0;
   for (let i = 0; i < markers.length; i++) {
-    if (markers.hasReached) {
-      countCompleted++;
+    if (markers[i].hasReached) {
+      countMarkersReached++;
     }
   }
-  return Math.floor((countCompleted / markers.length) * 100);
+  return {
+    getPercentProgress: Math.floor(
+      (countMarkersReached / markers.length) * 100
+    ),
+    getMarkersReached: countMarkersReached
+  };
 };
 
-export default ProgressCircle;
+export { calculateForProgress, ProgressCircle as default };

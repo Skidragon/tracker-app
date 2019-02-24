@@ -1,5 +1,5 @@
 {
-  "name": "adventure tracker",
+  "name": "adventure-tracker",
   "version": "1.0.0",
   "description": "Adventure Tracker React, GraphQL, Next and Apollo",
   "main": "index.js",
@@ -50,7 +50,8 @@
     "enzyme-to-json": "^3.3.4",
     "graphql-tools": "^4.0.0",
     "jest": "^23.6.0",
-    "jest-transform-graphql": "^2.1.0"
+    "jest-transform-graphql": "^2.1.0",
+    "react-testing-library": "^6.0.0"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",

@@ -1,20 +1,23 @@
 import { useState } from "react";
-import { compose, withProps } from "recompose";
+import { compose, withProps, fromRenderProps } from "recompose";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker
 } from "react-google-maps";
-import uuidv4 from "uuid/v4";
 import ProgressCircle from "./styles/ProgressCircle";
 import OptionsMenu from "./styles/OptionsMenu";
 import Trash from "./styles/Trash";
+import { useMarker } from "./state-and-methods/UseMarker";
+import { useTrash } from "./state-and-methods/UseTrash";
 const MapComponent = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
+    loadingElement: (
+      <div style={{ height: `100%` }} className="loadingElement" />
+    ),
     containerElement: (
       <div
         style={{
@@ -22,14 +25,22 @@ const MapComponent = compose(
           height: "100%",
           width: "100%"
         }}
+        className="containerElement"
       />
     ),
-    mapElement: <div style={{ height: `100%` }} />
+    mapElement: <div style={{ height: `100%` }} className="mapElement" />
   }),
   withScriptjs,
   withGoogleMap
 )(props => {
-  const { markers, addMarker, deleteMarker } = useMarker();
+  const {
+    markers,
+    addMarker,
+    deleteMarker,
+    setMarkerId,
+    clearMarkerId
+  } = useMarker();
+  const { isTrashActive, enableTrash, disableTrash } = useTrash();
   return (
     <GoogleMap
       defaultZoom={6}
@@ -37,11 +48,12 @@ const MapComponent = compose(
       options={{
         disableDefaultUI: true
       }}
+      className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash onHover={deleteMarker} />
+      <Trash isTrashActive={isTrashActive} deleteMarker={deleteMarker} />
       {markers.map(mark => {
         return (
           <Marker
@@ -49,6 +61,11 @@ const MapComponent = compose(
             draggable={mark.draggable}
             position={mark.position}
             label={mark.label}
+            onDragStart={() => setMarkerId(mark.id)}
+            onDrag={enableTrash}
+            onDragEnd={disableTrash}
+            className="marker"
+            role="marker"
           />
         );
       })}
@@ -56,27 +73,4 @@ const MapComponent = compose(
   );
 });
 
-function useMarker(e) {
-  const [markers, setMarkers] = useState([]);
-
-  const addMarker = e => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    const newMarker = {
-      draggable: true,
-      label: "a",
-      id: uuidv4(),
-      position: {
-        lat,
-        lng
-      },
-      hasReached: false
-    };
-    // console.log(markers);
-    setMarkers([...markers, newMarker]);
-  };
-
-  const deleteMarker = () => {};
-  return { markers, addMarker, deleteMarker };
-}
 export default MapComponent;
