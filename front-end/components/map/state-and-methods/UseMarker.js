@@ -2,6 +2,7 @@ export { useMarker };
 
 import { useState } from "react";
 import uuidv4 from "uuid/v4";
+import { letters } from "../lib/labels";
 
 function useMarker(e) {
   const [markers, setMarkers] = useState([]);
@@ -11,7 +12,7 @@ function useMarker(e) {
     const lng = e.latLng.lng();
     const newMarker = {
       draggable: true,
-      label: "a",
+      label: letters[markers.length % letters.length].toUpperCase(),
       id: uuidv4(),
       position: {
         lat,
@@ -36,7 +37,7 @@ function useMarker(e) {
   const [markerId, setMarkerId] = useState("");
   const clearMarkerId = () => setMarkerId("");
 
-  const updateMarkerPosition = (id, e, cb) => {
+  const updateMarkerPosition = (id, e) => {
     const updateIndex = markers.findIndex(mark => {
       return id === mark.id;
     });
@@ -58,6 +59,27 @@ function useMarker(e) {
       ...markers.slice(updateIndex + 1)
     ]);
   };
+
+  const updateAllMarkerLabels = id => {
+    const startUpdateIndex =
+      markers.findIndex(mark => {
+        return mark.id === id;
+      }) + 1;
+    const affectedMarkers = [];
+    for (let i = startUpdateIndex; i < markers.length; i++) {
+      let updatedMarker = {
+        ...markers[i],
+        label: letters[(i - 1) % letters.length].toUpperCase()
+      };
+      affectedMarkers.push(updatedMarker);
+    }
+
+    console.log("new markers: ", [
+      ...markers.slice(0, startUpdateIndex - 1),
+      ...affectedMarkers
+    ]);
+    setMarkers([...markers.slice(0, startUpdateIndex - 1), ...affectedMarkers]);
+  };
   return {
     //methods
     addMarker,
@@ -66,6 +88,7 @@ function useMarker(e) {
     setMarkerId,
     clearMarkerId,
     updateMarkerPosition,
+    updateAllMarkerLabels,
     //state
     markers,
     markerId
