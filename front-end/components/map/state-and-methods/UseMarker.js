@@ -2,7 +2,6 @@ export { useMarker };
 
 import { useState } from "react";
 import uuidv4 from "uuid/v4";
-import { NOT_STARTED } from "../lib/markers-status";
 
 function useMarker(e) {
   const [markers, setMarkers] = useState([]);
@@ -18,7 +17,6 @@ function useMarker(e) {
         lat,
         lng
       },
-      status: NOT_STARTED,
       hasReached: false
     };
     // console.log(markers);
