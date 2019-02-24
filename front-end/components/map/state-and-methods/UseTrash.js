@@ -11,10 +11,13 @@ const useTrash = () => {
   const [inTrashArea, setInTrashArea] = useState(false);
 
   return {
-    isTrashActive,
+    //methods
     disableTrash,
     enableTrash,
+    setInTrashArea,
+
+    //state
     inTrashArea,
-    setInTrashArea
+    isTrashActive
   };
 };

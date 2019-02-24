@@ -1,0 +1,4 @@
+export { NOT_STARTED, COMPLETED };
+
+const NOT_STARTED = "NOT_STARTED";
+const COMPLETED = "COMPLETED";
