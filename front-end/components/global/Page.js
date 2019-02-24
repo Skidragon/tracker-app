@@ -4,7 +4,6 @@ import styled, {
   injectGlobal,
   withTheme
 } from "styled-components";
-import Header from "./Header";
 import Meta from "./Meta";
 
 const theme = {

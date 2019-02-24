@@ -5,7 +5,7 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
-
+import ProgressCircle from "./styles/ProgressCircle";
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -14,11 +14,9 @@ const MapComponent = compose(
     containerElement: (
       <div
         style={{
-          position: "absolute",
-          top: "0",
-          bottom: "0",
-          left: "0",
-          right: "0"
+          position: "relative",
+          height: "100%",
+          width: "100%"
         }}
       />
     ),
@@ -26,10 +24,19 @@ const MapComponent = compose(
   }),
   withScriptjs,
   withGoogleMap
-)(props => (
-  <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-    <Marker draggable={true} position={{ lat: -34.397, lng: 150.644 }} />
-  </GoogleMap>
-));
+)(props => {
+  return (
+    <GoogleMap
+      defaultZoom={6}
+      options={{
+        disableDefaultUI: true
+      }}
+      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+    >
+      <ProgressCircle percent={50} />
+      <Marker draggable={true} position={{ lat: -34.397, lng: 150.644 }} />
+    </GoogleMap>
+  );
+});
 
 export default MapComponent;

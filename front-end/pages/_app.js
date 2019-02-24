@@ -1,8 +1,9 @@
 import App, { Container } from "next/app";
-import Page from "../components/global-app/Page";
+import Page from "../components/global/Page";
 import { ApolloProvider } from "react-apollo";
 import withData from "../lib/withData";
 import "../lib/dummy.css";
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
