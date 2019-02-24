@@ -5,6 +5,8 @@ const TooltipContent = styled.div`
   color: ${props => props.theme.white};
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
 `;
 const DeleteTooltip = props => {
   return (

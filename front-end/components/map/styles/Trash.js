@@ -11,16 +11,14 @@ const TrashWrapper = styled(Button)`
 `;
 const Trash = props => {
   return (
-    <DeleteTooltip>
-      <TrashWrapper
-        type={"danger"}
-        shape={"circle"}
-        icon={"delete"}
-        disabled={!props.isTrashActive}
-        onMouseEnter={() => props.setInTrashArea(true)}
-        onMouseLeave={() => props.setInTrashArea(false)}
-      />
-    </DeleteTooltip>
+    <TrashWrapper
+      type={"danger"}
+      shape={"circle"}
+      icon={"delete"}
+      disabled={!props.isTrashActive}
+      onMouseEnter={() => props.setInTrashArea(true)}
+      onMouseLeave={() => props.setInTrashArea(false)}
+    />
   );
 };
 
