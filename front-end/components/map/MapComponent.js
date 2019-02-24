@@ -11,6 +11,8 @@ import OptionsMenu from "./styles/OptionsMenu";
 import Trash from "./styles/Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
+
+// Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
     googleMapURL:
