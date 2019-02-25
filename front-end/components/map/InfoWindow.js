@@ -25,7 +25,7 @@ const CustomInfoWindow = ({
         <Checkbox
           onChange={e => {
             toggleMarkerReached(activeMarker.id);
-            console.log(e.target.checked);
+            // console.log(e.target.checked);
           }}
           checked={activeMarker.hasReached}
         >
