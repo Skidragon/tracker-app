@@ -6,6 +6,8 @@ import { letters } from "../lib/labels";
 
 function useMarker(e) {
   const [markers, setMarkers] = useState([]);
+  const [markerId, setMarkerId] = useState("");
+  const [activeMarker, setActiveMarker] = useState({});
 
   const addMarker = e => {
     const lat = e.latLng.lat();
@@ -34,7 +36,6 @@ function useMarker(e) {
     ]);
   };
 
-  const [markerId, setMarkerId] = useState("");
   const clearMarkerId = () => setMarkerId("");
 
   const updateMarkerPosition = (id, e) => {
@@ -73,12 +74,28 @@ function useMarker(e) {
       };
       affectedMarkers.push(updatedMarker);
     }
-
-    console.log("new markers: ", [
-      ...markers.slice(0, startUpdateIndex - 1),
-      ...affectedMarkers
-    ]);
     setMarkers([...markers.slice(0, startUpdateIndex - 1), ...affectedMarkers]);
+  };
+
+  const toggleMarkerReached = id => {
+    const updateIndex = markers.findIndex(mark => {
+      return mark.id === id;
+    });
+    const updatedMarker = {
+      ...markers[updateIndex],
+      hasReached: !markers[updateIndex].hasReached
+    };
+
+    setMarkers([
+      ...markers.slice(0, updateIndex),
+      updatedMarker,
+      ...markers.slice(updateIndex + 1)
+    ]);
+    setActiveMarker(updatedMarker);
+  };
+
+  const clearActiveMarker = () => {
+    setActiveMarker({});
   };
   return {
     //methods
@@ -89,8 +106,12 @@ function useMarker(e) {
     clearMarkerId,
     updateMarkerPosition,
     updateAllMarkerLabels,
+    setActiveMarker,
+    clearActiveMarker,
+    toggleMarkerReached,
     //state
     markers,
+    activeMarker,
     markerId
   };
 }
