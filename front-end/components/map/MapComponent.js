@@ -91,8 +91,8 @@ const MapComponent = compose(
             onDrag={enableTrash}
             onDragEnd={e => {
               if (isTrashActive && inTrashArea) {
-                updateAllMarkerLabels(markerId);
                 deleteMarker(mark.id);
+                updateAllMarkerLabels(markerId);
                 disableTrash();
                 clearMarkerId();
               } else {
