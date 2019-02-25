@@ -5,7 +5,6 @@ import { useState } from "react";
 
 //Refer to lines.js for what they represent in this app
 import { greyLine, solidBlackLine, dashedLine } from "../lib/lines";
-import { NOT_STARTED, COMPLETED } from "../lib/markers-status";
 
 const usePolyline = () => {
   const [polylines, setPolylines] = useState([]);
@@ -24,22 +23,22 @@ const usePolyline = () => {
       //Once we have two vertices in the line array we can choose a line type
       if (line.length === 2) {
         //Depending on marker's status, this will choose what type of line to use
-        if (markers[i - 1].status === NOT_STARTED) {
+        if (markers[i - 1].hasReached === false) {
           lineOptions = {
             ...greyLine
           };
         } else if (
-          markers[i - 1].status === COMPLETED &&
-          markers[i].status !== undefined &&
-          markers[i].status === NOT_STARTED
+          markers[i - 1].hasReached === true &&
+          markers[i].hasReached !== undefined &&
+          markers[i].hasReached === false
         ) {
           lineOptions = {
             ...dashedLine
           };
         } else if (
-          markers[i - 1].status === COMPLETED &&
-          markers[i].status !== undefined &&
-          markers[i].status === COMPLETED
+          markers[i - 1].hasReached === true &&
+          markers[i].hasReached !== undefined &&
+          markers[i].hasReached === true
         ) {
           lineOptions = {
             ...solidBlackLine

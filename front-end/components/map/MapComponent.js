@@ -43,6 +43,7 @@ const MapComponent = compose(
     setMarkerId,
     clearMarkerId,
     updateMarkerPosition,
+    updateAllMarkerLabels,
     //State
     markers,
     markerId
@@ -91,6 +92,7 @@ const MapComponent = compose(
             onDragEnd={e => {
               if (isTrashActive && inTrashArea) {
                 deleteMarker(mark.id);
+                updateAllMarkerLabels(markerId);
                 disableTrash();
                 clearMarkerId();
               } else {
