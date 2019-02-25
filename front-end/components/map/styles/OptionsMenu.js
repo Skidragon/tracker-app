@@ -43,7 +43,7 @@ const OverlayMenu = props => {
       <CopyToClipboard text={window.location.href}>
         <MenuItem
           onClick={() => {
-            message.success("Link has been copied!");
+            message.success("Link has been copied to clipboard!");
           }}
         >
           <Icon type="link" /> Share
