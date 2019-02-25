@@ -86,6 +86,7 @@ const MapComponent = compose(
       {isInfoWindowOpen && (
         <CustomInfoWindow
           activeMarker={activeMarker}
+          markers={markers}
           toggleMarkerReached={toggleMarkerReached}
           clearActiveMarker={clearActiveMarker}
           setInfoWindowOpen={setInfoWindowOpen}

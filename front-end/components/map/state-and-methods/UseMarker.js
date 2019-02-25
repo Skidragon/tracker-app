@@ -76,10 +76,24 @@ function useMarker(e) {
     }
     setMarkers([...markers.slice(0, startUpdateIndex - 1), ...affectedMarkers]);
   };
-  const toggleMarkerReached = marker => {
-    marker.hasReached = !marker.hasReached;
-    setActiveMarker(marker);
+
+  const toggleMarkerReached = id => {
+    const updateIndex = markers.findIndex(mark => {
+      return mark.id === id;
+    });
+    const updatedMarker = {
+      ...markers[updateIndex],
+      hasReached: !markers[updateIndex].hasReached
+    };
+
+    setMarkers([
+      ...markers.slice(0, updateIndex),
+      updatedMarker,
+      ...markers.slice(updateIndex + 1)
+    ]);
+    setActiveMarker(updatedMarker);
   };
+
   const clearActiveMarker = () => {
     setActiveMarker({});
   };

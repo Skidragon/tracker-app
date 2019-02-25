@@ -1,20 +1,18 @@
 import { Checkbox, Card } from "antd";
 import { InfoWindow } from "react-google-maps";
-import { useState } from "react";
 import styled from "styled-components";
 import { object } from "prop-types";
 
 const CustomInfoWindow = ({
   activeMarker,
   toggleMarkerReached,
-  clearActiveMarker,
-  setInfoWindowOpen
+  setInfoWindowOpen,
+  markers
 }) => {
   const position =
     activeMarker.position !== undefined
       ? activeMarker.position
       : { lat: 0, lng: 0 };
-
   return (
     <StyledInfoWindow
       position={{ lat: position.lat, lng: position.lng }}
@@ -23,14 +21,15 @@ const CustomInfoWindow = ({
         setInfoWindowOpen(false);
       }}
     >
-      <Card style={{ pointerEvents: "auto" }}>
+      <Card>
         <Checkbox
           onChange={e => {
-            toggleMarkerReached(activeMarker);
+            toggleMarkerReached(activeMarker.id);
+            console.log(e.target.checked);
           }}
           checked={activeMarker.hasReached}
         >
-          Checkbox
+          Reached Destination?
         </Checkbox>
       </Card>
     </StyledInfoWindow>
