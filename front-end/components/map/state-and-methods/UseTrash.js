@@ -8,5 +8,16 @@ const useTrash = () => {
 
   const enableTrash = () => setEnabled(true);
 
-  return { isTrashActive, disableTrash, enableTrash };
+  const [inTrashArea, setInTrashArea] = useState(false);
+
+  return {
+    //methods
+    disableTrash,
+    enableTrash,
+    setInTrashArea,
+
+    //state
+    inTrashArea,
+    isTrashActive
+  };
 };

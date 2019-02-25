@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  Polyline
 } from "react-google-maps";
 import ProgressCircle from "./styles/ProgressCircle";
 import OptionsMenu from "./styles/OptionsMenu";
 import Trash from "./styles/Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
+import { usePolyline } from "./state-and-methods/UsePolyline";
+// Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
     googleMapURL:
@@ -34,13 +37,32 @@ const MapComponent = compose(
   withGoogleMap
 )(props => {
   const {
-    markers,
+    //Methods
     addMarker,
     deleteMarker,
     setMarkerId,
-    clearMarkerId
+    clearMarkerId,
+    updateMarkerPosition,
+    updateAllMarkerLabels,
+    //State
+    markers,
+    markerId
   } = useMarker();
-  const { isTrashActive, enableTrash, disableTrash } = useTrash();
+  const {
+    //Methods
+    enableTrash,
+    disableTrash,
+    setInTrashArea,
+    //State
+    inTrashArea,
+    isTrashActive
+  } = useTrash();
+
+  const { polylines, updateLines } = usePolyline();
+
+  useEffect(() => {
+    updateLines(markers);
+  }, [markers]);
   return (
     <GoogleMap
       defaultZoom={6}
@@ -53,7 +75,11 @@ const MapComponent = compose(
     >
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash isTrashActive={isTrashActive} deleteMarker={deleteMarker} />
+      <Trash
+        isTrashActive={isTrashActive}
+        deleteMarker={deleteMarker}
+        setInTrashArea={setInTrashArea}
+      />
       {markers.map(mark => {
         return (
           <Marker
@@ -63,9 +89,34 @@ const MapComponent = compose(
             label={mark.label}
             onDragStart={() => setMarkerId(mark.id)}
             onDrag={enableTrash}
-            onDragEnd={disableTrash}
+            onDragEnd={e => {
+              if (isTrashActive && inTrashArea) {
+                deleteMarker(mark.id);
+                updateAllMarkerLabels(markerId);
+                disableTrash();
+                clearMarkerId();
+              } else {
+                updateMarkerPosition(mark.id, e);
+                disableTrash();
+                clearMarkerId();
+              }
+            }}
             className="marker"
             role="marker"
+          />
+        );
+      })}
+      {polylines.map(line => {
+        return (
+          <Polyline
+            key={line.id}
+            path={line.path}
+            options={{
+              strokeColor: line.strokeColor,
+              strokeWeight: line.strokeWeight,
+              strokeOpacity: line.strokeOpacity,
+              icons: line.icons
+            }}
           />
         );
       })}
