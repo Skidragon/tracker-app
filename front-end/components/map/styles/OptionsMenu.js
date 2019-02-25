@@ -1,6 +1,6 @@
-import { Menu, Dropdown, Button, Icon, Avatar, Badge } from "antd";
+import { Menu, Dropdown, Button, Icon, Avatar, Badge, message } from "antd";
 import styled from "styled-components";
-
+import { CopyToClipboard } from "react-copy-to-clipboard";
 const OptionsMenuWrapper = styled.div`
   position: absolute;
   left: 3%;
@@ -27,23 +27,30 @@ const MainMenu = styled(Menu)`
   background: none;
   border: none;
 `;
-const OverlayMenu = props => (
-  <MainMenu>
-    <MenuItem>
-      <Icon type="edit" />
-      Edit
-    </MenuItem>
-    <MenuItem>
-      <Icon type="user" />
-      <Badge count={1} offset={[15, 7]}>
-        Followers
-      </Badge>
-    </MenuItem>
-    <MenuItem>
-      <Icon type="link" />
-      Share
-    </MenuItem>
-  </MainMenu>
-);
+const OverlayMenu = props => {
+  return (
+    <MainMenu>
+      <MenuItem>
+        <Icon type="edit" />
+        Edit
+      </MenuItem>
+      <MenuItem>
+        <Icon type="user" />
+        <Badge count={1} offset={[15, 7]}>
+          Followers
+        </Badge>
+      </MenuItem>
+      <CopyToClipboard text={window.location.href}>
+        <MenuItem
+          onClick={() => {
+            message.success("Link has been copied!");
+          }}
+        >
+          <Icon type="link" /> Share
+        </MenuItem>
+      </CopyToClipboard>
+    </MainMenu>
+  );
+};
 
 export default OptionsMenu;
