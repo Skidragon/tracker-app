@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
+import { message } from "antd";
 import {
   withScriptjs,
   withGoogleMap,
@@ -13,6 +14,8 @@ import Trash from "./styles/Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
 import { usePolyline } from "./state-and-methods/UsePolyline";
+import CustomInfoWindow from "./InfoWindow";
+import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -44,8 +47,12 @@ const MapComponent = compose(
     clearMarkerId,
     updateMarkerPosition,
     updateAllMarkerLabels,
+    setActiveMarker,
+    clearActiveMarker,
+    toggleMarkerReached,
     //State
     markers,
+    activeMarker,
     markerId
   } = useMarker();
   const {
@@ -59,20 +66,35 @@ const MapComponent = compose(
   } = useTrash();
 
   const { polylines, updateLines } = usePolyline();
-
+  const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
   return (
     <GoogleMap
       defaultZoom={6}
-      onClick={addMarker}
+      onClick={e => {
+        addMarker(e);
+        setInfoWindowOpen(false);
+      }}
       options={{
         disableDefaultUI: true
       }}
       className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
+      {isInfoWindowOpen && (
+        <CustomInfoWindow
+          activeMarker={activeMarker}
+          markers={markers}
+          toggleMarkerReached={toggleMarkerReached}
+          clearActiveMarker={clearActiveMarker}
+          setInfoWindowOpen={setInfoWindowOpen}
+          options={{
+            pixelOffset: new google.maps.Size(0, 0, 30, 30)
+          }}
+        />
+      )}
       <OptionsMenu />
       <ProgressCircle markers={markers} />
       <Trash
@@ -87,12 +109,22 @@ const MapComponent = compose(
             draggable={mark.draggable}
             position={mark.position}
             label={mark.label}
-            onDragStart={() => setMarkerId(mark.id)}
+            onClick={() => {
+              setMarkerId(mark.id);
+              setActiveMarker(mark);
+              setInfoWindowOpen(true);
+            }}
+            onDragStart={() => {
+              setMarkerId(mark.id);
+              setActiveMarker(mark);
+              setInfoWindowOpen(false);
+            }}
             onDrag={enableTrash}
             onDragEnd={e => {
               if (isTrashActive && inTrashArea) {
+                message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
-                updateAllMarkerLabels(markerId);
+                updateAllMarkerLabels(mark.id);
                 disableTrash();
                 clearMarkerId();
               } else {
