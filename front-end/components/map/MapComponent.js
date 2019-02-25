@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
+import { message } from "antd";
 import {
   withScriptjs,
   withGoogleMap,
@@ -91,8 +92,9 @@ const MapComponent = compose(
             onDrag={enableTrash}
             onDragEnd={e => {
               if (isTrashActive && inTrashArea) {
+                message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
-                updateAllMarkerLabels(markerId);
+                updateAllMarkerLabels(mark.id);
                 disableTrash();
                 clearMarkerId();
               } else {
