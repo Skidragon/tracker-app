@@ -50,6 +50,7 @@ const MapComponent = compose(
     setActiveMarker,
     clearActiveMarker,
     toggleMarkerReached,
+    setMarkers,
     //State
     markers,
     activeMarker,
@@ -90,6 +91,7 @@ const MapComponent = compose(
           toggleMarkerReached={toggleMarkerReached}
           clearActiveMarker={clearActiveMarker}
           setInfoWindowOpen={setInfoWindowOpen}
+          setMarkers={setMarkers}
           options={{
             pixelOffset: new google.maps.Size(0, 0, 30, 30)
           }}
