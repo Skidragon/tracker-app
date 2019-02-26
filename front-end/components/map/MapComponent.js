@@ -92,6 +92,7 @@ const MapComponent = compose(
           clearActiveMarker={clearActiveMarker}
           setInfoWindowOpen={setInfoWindowOpen}
           setMarkers={setMarkers}
+          setActiveMarker={setActiveMarker}
           options={{
             pixelOffset: new google.maps.Size(0, 0, 30, 30)
           }}

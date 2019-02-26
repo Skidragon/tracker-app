@@ -8,6 +8,7 @@ const CustomInfoWindow = ({
   toggleMarkerReached,
   setInfoWindowOpen,
   setMarkers,
+  setActiveMarker,
   markers
 }) => {
   const position =
@@ -37,9 +38,9 @@ const CustomInfoWindow = ({
                   endIndex
                 );
                 setMarkers(newMarkers);
+                setActiveMarker(newMarkers[endIndex]);
               }
             );
-
             const nextReachedConfirm = showConfirmModal.bind(
               null,
               "Are you sure you want to backtrack?",
@@ -52,6 +53,7 @@ const CustomInfoWindow = ({
                   endIndex
                 );
                 setMarkers(newMarkers);
+                setActiveMarker(newMarkers[endIndex]);
               }
             );
             toggleMarkerReached(
