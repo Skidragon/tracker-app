@@ -76,11 +76,27 @@ function useMarker(e) {
     }
     setMarkers([...markers.slice(0, startUpdateIndex - 1), ...affectedMarkers]);
   };
-
-  const toggleMarkerReached = id => {
+  const toggleMarkerReached = (id, prevConfirmModalCb, nextConfirmModalCb) => {
     const updateIndex = markers.findIndex(mark => {
       return mark.id === id;
     });
+    const prevMarker = markers[updateIndex - 1];
+    const nextMarker = markers[updateIndex + 1];
+    if (prevMarker !== undefined && prevMarker.hasReached === false) {
+      if (prevConfirmModalCb) {
+        const firstNotReachedIndex = markers.findIndex(mark => {
+          return mark.hasReached === false;
+        });
+        prevConfirmModalCb([firstNotReachedIndex, updateIndex]);
+      }
+      return;
+    }
+    if (nextMarker !== undefined && nextMarker.hasReached === true) {
+      if (nextConfirmModalCb) {
+        nextConfirmModalCb([updateIndex, markers.length - 1]);
+      }
+      return;
+    }
     const updatedMarker = {
       ...markers[updateIndex],
       hasReached: !markers[updateIndex].hasReached
@@ -109,6 +125,7 @@ function useMarker(e) {
     setActiveMarker,
     clearActiveMarker,
     toggleMarkerReached,
+    setMarkers,
     //state
     markers,
     activeMarker,
