@@ -5,19 +5,12 @@ import { Marker } from "./interfaces/marker.interface";
 type PropTypes = {
   markers: [Marker];
 };
-// draggable: true,
-//       label: letters[markers.length % letters.length].toUpperCase(),
-//       id: uuidv4(),
-//       position: {
-//         lat,
-//         lng
-//       },
-//       hasReached: false
+//@ts-ignore
 const ProgressWrapper = styled(Progress)`
   position: absolute;
   top: 3%;
   left: 3%;
-  /* background: ${props => props.theme.white}; */
+  background: ${props => props.theme.white};
   border-radius: 50%;
 `;
 
