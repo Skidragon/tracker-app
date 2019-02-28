@@ -1,6 +1,11 @@
 export { changeMarkersProps };
-
-const changeMarkersProps = (markers, newAttributes, startIndex, endIndex) => {
+import { Marker } from "../interfaces/index";
+const changeMarkersProps = (
+  markers: [Marker],
+  newAttributes: object,
+  startIndex: number,
+  endIndex: number
+) => {
   if (startIndex === undefined || endIndex === undefined) {
     throw new Error("changeMarkerProps needs a startIndex and endIndex");
   }
