@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, Icon } from "antd";
-import DeleteTooltip from "./DeleteTooltip";
+// import DeleteTooltip from "./styles/DeleteTooltip";
 const TrashWrapper = styled(Button)`
   position: absolute;
   font-size: 3em;

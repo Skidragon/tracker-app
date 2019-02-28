@@ -8,13 +8,13 @@ import {
   Marker,
   Polyline
 } from "react-google-maps";
-import ProgressCircle from "./styles/ProgressCircle";
-import OptionsMenu from "./styles/OptionsMenu";
-import Trash from "./styles/Trash";
+import ProgressCircle from "./ProgressCircle";
+import OptionsMenu from "./OptionsMenu";
+import Trash from "./Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
 import { usePolyline } from "./state-and-methods/UsePolyline";
-import CustomInfoWindow from "./InfoWindow";
+import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
