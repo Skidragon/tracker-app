@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { Button, Icon } from "antd";
 // import DeleteTooltip from "./styles/DeleteTooltip";
 
+type PropTypes = {
+  isTrashActive: boolean;
+  setInTrashArea: any;
+};
 //@ts-ignore
 const TrashWrapper = styled(Button)`
   position: absolute;
@@ -12,16 +16,15 @@ const TrashWrapper = styled(Button)`
   right: 3%;
 `;
 
-//@ts-ignore
-const Trash = props => {
+const Trash: React.SFC<PropTypes> = ({ isTrashActive, setInTrashArea }) => {
   return (
     <TrashWrapper
       type={"danger"}
       shape={"circle"}
       icon={"delete"}
-      disabled={!props.isTrashActive}
-      onMouseEnter={() => props.setInTrashArea(true)}
-      onMouseLeave={() => props.setInTrashArea(false)}
+      disabled={!isTrashActive}
+      onMouseEnter={() => setInTrashArea(true)}
+      onMouseLeave={() => setInTrashArea(false)}
     />
   );
 };
