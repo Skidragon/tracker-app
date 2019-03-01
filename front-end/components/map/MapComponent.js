@@ -86,23 +86,23 @@ const MapComponent = compose(
       className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
-      {isInfoWindowOpen && (
-        <Context.Provider
-          value={{
-            activeMarker,
-            markers,
-            toggleMarkerReached,
-            clearActiveMarker,
-            setMarkers,
-            setActiveMarker
-          }}
-        >
+      <Context.Provider
+        value={{
+          activeMarker,
+          markers,
+          toggleMarkerReached,
+          clearActiveMarker,
+          setMarkers,
+          setActiveMarker
+        }}
+      >
+        {isInfoWindowOpen && (
           <CustomInfoWindow
             activeMarker={activeMarker}
             setInfoWindowOpen={setInfoWindowOpen}
           />
-        </Context.Provider>
-      )}
+        )}
+      </Context.Provider>
       <OptionsMenu />
       <ProgressCircle markers={markers} />
       <Trash
