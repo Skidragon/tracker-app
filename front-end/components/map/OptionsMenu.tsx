@@ -1,12 +1,13 @@
 import { Menu, Dropdown, Button, Icon, Avatar, Badge, message } from "antd";
 import styled from "styled-components";
+//@ts-ignore
 import { CopyToClipboard } from "react-copy-to-clipboard";
 const OptionsMenuWrapper = styled.div`
   position: absolute;
   left: 3%;
   bottom: 5%;
 `;
-
+//@ts-ignore
 const OptionsMenu = props => (
   <OptionsMenuWrapper>
     <Dropdown overlay={<OverlayMenu />} placement="topLeft">
@@ -27,6 +28,8 @@ const MainMenu = styled(Menu)`
   background: none;
   border: none;
 `;
+
+//@ts-ignore
 const OverlayMenu = props => {
   return (
     <MainMenu>

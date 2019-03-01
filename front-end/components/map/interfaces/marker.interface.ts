@@ -4,6 +4,7 @@ interface Position {
 }
 interface Marker {
   hasReached: boolean;
+  draggable: boolean;
   id: string | number;
   position: Position;
   label: string;

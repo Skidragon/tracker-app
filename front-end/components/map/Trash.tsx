@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Button, Icon } from "antd";
 // import DeleteTooltip from "./styles/DeleteTooltip";
+
+//@ts-ignore
 const TrashWrapper = styled(Button)`
   position: absolute;
   font-size: 3em;
@@ -9,6 +11,8 @@ const TrashWrapper = styled(Button)`
   bottom: 3%;
   right: 3%;
 `;
+
+//@ts-ignore
 const Trash = props => {
   return (
     <TrashWrapper

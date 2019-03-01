@@ -1,5 +1,5 @@
 export { useMarker };
-
+import { Marker } from "../interfaces/marker.interface";
 import { useState } from "react";
 import uuidv4 from "uuid/v4";
 import { letters } from "../lib/labels";
@@ -10,9 +10,9 @@ function useMarker(e) {
   const [activeMarker, setActiveMarker] = useState({});
 
   const addMarker = e => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    const newMarker = {
+    const lat: number = e.latLng.lat();
+    const lng: number = e.latLng.lng();
+    const newMarker: Marker = {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
       id: uuidv4(),
@@ -26,7 +26,7 @@ function useMarker(e) {
     setMarkers([...markers, newMarker]);
   };
 
-  const deleteMarker = id => {
+  const deleteMarker = (id: string) => {
     const deleteIndex = markers.findIndex(mark => {
       return mark.id === id;
     });
@@ -38,15 +38,15 @@ function useMarker(e) {
 
   const clearMarkerId = () => setMarkerId("");
 
-  const updateMarkerPosition = (id, e) => {
+  const updateMarkerPosition = (id: string, e) => {
     const updateIndex = markers.findIndex(mark => {
       return id === mark.id;
     });
 
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
+    const lat: number = e.latLng.lat();
+    const lng: number = e.latLng.lng();
 
-    const updatedMarker = {
+    const updatedMarker: Marker = {
       ...markers[updateIndex],
       position: {
         lat,
@@ -61,7 +61,7 @@ function useMarker(e) {
     ]);
   };
 
-  const updateAllMarkerLabels = id => {
+  const updateAllMarkerLabels = (id: string) => {
     const startUpdateIndex =
       markers.findIndex(mark => {
         return mark.id === id;
@@ -97,7 +97,7 @@ function useMarker(e) {
       }
       return;
     }
-    const updatedMarker = {
+    const updatedMarker: Marker = {
       ...markers[updateIndex],
       hasReached: !markers[updateIndex].hasReached
     };
@@ -120,7 +120,6 @@ function useMarker(e) {
     updateMarkerPosition,
     setMarkerId,
     clearMarkerId,
-    updateMarkerPosition,
     updateAllMarkerLabels,
     setActiveMarker,
     clearActiveMarker,
