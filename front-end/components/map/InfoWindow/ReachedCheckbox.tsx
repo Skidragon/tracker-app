@@ -51,7 +51,7 @@ const ReachedCheckbox = () => {
                   endIndex
                 );
                 setMarkers(newMarkers);
-                setActiveMarker(newMarkers[endIndex]);
+                setActiveMarker(newMarkers[startIndex]);
               }
             );
             toggleMarkerReached(
