@@ -2,14 +2,7 @@ import { Card } from "antd";
 import { InfoWindow } from "react-google-maps";
 import styled from "styled-components";
 import ReachedCheckbox from "./ReachedCheckbox";
-const CustomInfoWindow = ({
-  activeMarker,
-  toggleMarkerReached,
-  setInfoWindowOpen,
-  setMarkers,
-  setActiveMarker,
-  markers
-}) => {
+const CustomInfoWindow = ({ activeMarker, setInfoWindowOpen }) => {
   const position =
     activeMarker.position !== undefined
       ? activeMarker.position
@@ -23,13 +16,7 @@ const CustomInfoWindow = ({
       }}
     >
       <Card>
-        <ReachedCheckbox
-          toggleMarkerReached={toggleMarkerReached}
-          setMarkers={setMarkers}
-          setActiveMarker={setActiveMarker}
-          markers={markers}
-          activeMarker={activeMarker}
-        />
+        <ReachedCheckbox />
       </Card>
     </StyledInfoWindow>
   );

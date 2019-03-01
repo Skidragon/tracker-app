@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
-import { message } from "antd";
+import Context from "../context/Context";
 import {
   withScriptjs,
   withGoogleMap,
@@ -16,6 +16,8 @@ import { useTrash } from "./state-and-methods/UseTrash";
 import { usePolyline } from "./state-and-methods/UsePolyline";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
+import { message } from "antd";
+
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -85,18 +87,21 @@ const MapComponent = compose(
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
       {isInfoWindowOpen && (
-        <CustomInfoWindow
-          activeMarker={activeMarker}
-          markers={markers}
-          toggleMarkerReached={toggleMarkerReached}
-          clearActiveMarker={clearActiveMarker}
-          setInfoWindowOpen={setInfoWindowOpen}
-          setMarkers={setMarkers}
-          setActiveMarker={setActiveMarker}
-          options={{
-            pixelOffset: new google.maps.Size(0, 0, 30, 30)
+        <Context.Provider
+          value={{
+            activeMarker,
+            markers,
+            toggleMarkerReached,
+            clearActiveMarker,
+            setMarkers,
+            setActiveMarker
           }}
-        />
+        >
+          <CustomInfoWindow
+            activeMarker={activeMarker}
+            setInfoWindowOpen={setInfoWindowOpen}
+          />
+        </Context.Provider>
       )}
       <OptionsMenu />
       <ProgressCircle markers={markers} />
