@@ -4,7 +4,7 @@ import { useState } from "react";
 import uuidv4 from "uuid/v4";
 import { letters } from "../lib/labels";
 
-function useMarker(e) {
+function useMarker() {
   const [markers, setMarkers] = useState([]);
   const [markerId, setMarkerId] = useState("");
   const [activeMarker, setActiveMarker] = useState({});

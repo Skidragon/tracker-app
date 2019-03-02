@@ -1,6 +1,6 @@
 export { usePolyline };
 import uuidv4 from "uuid/v4";
-import { Marker } from "../interfaces/marker.interface";
+import { Marker, Polyline } from "../interfaces/index";
 import { useState } from "react";
 
 //Refer to lines.js for what they represent in this app
