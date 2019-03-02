@@ -7,7 +7,8 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
-  Polyline
+  Polyline,
+  DirectionsRenderer
 } from "react-google-maps";
 import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import ProgressCircle from "./ProgressCircle";
@@ -72,6 +73,7 @@ const MapComponent = compose(
 
   const { polylines, updateLines } = usePolyline();
   const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
+
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -88,14 +90,6 @@ const MapComponent = compose(
       className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
-      <SearchBox
-        ref={props.onSearchBoxMounted}
-        bounds={props.bounds}
-        controlPosition={google.maps.ControlPosition.TOP}
-        onPlacesChanged={props.onPlacesChanged}
-      >
-        <SearchInput />
-      </SearchBox>
       <Context.Provider
         value={{
           activeMarker,
