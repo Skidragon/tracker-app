@@ -13,7 +13,7 @@ interface Props {}
 const SearchInput: React.SFC<Props> = () => {
   return (
     <SearchBox
-      placeholder="Search a place"
+      placeholder="Search a place, can't use without a google maps API key"
       onSearch={value => console.log(value)}
       enterButton
       size="large"
