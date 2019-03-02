@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
+import { Marker as IMarker } from "./interfaces/marker.interface";
 import Context from "../context/Context";
 import {
   withScriptjs,
@@ -8,24 +9,25 @@ import {
   Marker,
   Polyline
 } from "react-google-maps";
+import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import ProgressCircle from "./ProgressCircle";
 import OptionsMenu from "./OptionsMenu";
+import SearchInput from "./SearchInput";
 import Trash from "./Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
 import { usePolyline } from "./state-and-methods/UsePolyline";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
-import { message } from "antd";
+import { message, Spin } from "antd";
+import { MapLoadingElement } from "./MapLoadingElement";
 
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
     googleMapURL:
       "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: (
-      <div style={{ height: `100%` }} className="loadingElement" />
-    ),
+    loadingElement: <MapLoadingElement />,
     containerElement: (
       <div
         style={{
@@ -36,7 +38,7 @@ const MapComponent = compose(
         className="containerElement"
       />
     ),
-    mapElement: <div style={{ height: `100%` }} className="mapElement" />
+    mapElement: <div style={{ height: "100%" }} className="mapElement" />
   }),
   withScriptjs,
   withGoogleMap
@@ -86,6 +88,14 @@ const MapComponent = compose(
       className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
+      <SearchBox
+        ref={props.onSearchBoxMounted}
+        bounds={props.bounds}
+        controlPosition={google.maps.ControlPosition.TOP}
+        onPlacesChanged={props.onPlacesChanged}
+      >
+        <SearchInput />
+      </SearchBox>
       <Context.Provider
         value={{
           activeMarker,
@@ -110,7 +120,7 @@ const MapComponent = compose(
         deleteMarker={deleteMarker}
         setInTrashArea={setInTrashArea}
       />
-      {markers.map(mark => {
+      {markers.map((mark: IMarker) => {
         return (
           <Marker
             key={mark.id}
