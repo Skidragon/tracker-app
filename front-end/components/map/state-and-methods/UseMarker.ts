@@ -15,6 +15,7 @@ function useMarker() {
     const newMarker: Marker = {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
+      url: "",
       //@ts-ignore
       labelStyle: {
         backgroundColor: "#131313",

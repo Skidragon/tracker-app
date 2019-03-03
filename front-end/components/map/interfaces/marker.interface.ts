@@ -6,4 +6,5 @@ export interface Marker {
   position: Position;
   label: string;
   labelStyle: object;
+  url: string;
 }
