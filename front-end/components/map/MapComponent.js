@@ -135,7 +135,7 @@ const MapComponent = compose(
               setInfoWindowOpen(false);
             }}
             onDrag={enableTrash}
-            onDragEnd={(e: object) => {
+            onDragEnd={e => {
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
