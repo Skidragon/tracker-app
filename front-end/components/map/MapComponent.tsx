@@ -110,7 +110,7 @@ const MapComponent = compose(
       <OptionsMenu />
       <ProgressCircle markers={markers} />
       <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
-      {markers.map(mark => {
+      {markers.map((mark: IMarker) => {
         return (
           <MarkerWithLabel
             key={mark.id}
@@ -135,7 +135,8 @@ const MapComponent = compose(
               setInfoWindowOpen(false);
             }}
             onDrag={enableTrash}
-            onDragEnd={e => {
+            onDragEnd={(e: object) => {
+              // console.log(isTrashActive, inTrashArea);
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
