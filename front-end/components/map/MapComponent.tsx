@@ -110,7 +110,7 @@ const MapComponent = compose(
       <OptionsMenu />
       <ProgressCircle markers={markers} />
       <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
-      {markers.map((mark: IMarker) => {
+      {markers.map(mark => {
         return (
           <MarkerWithLabel
             key={mark.id}
