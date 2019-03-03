@@ -1,6 +1,6 @@
 import React from "react";
 import { render, cleanup, getNodeText } from "react-testing-library";
-import ProgressCircle, { calculateForProgress } from "../styles/ProgressCircle";
+import ProgressCircle, { calculateForProgress } from "../ProgressCircle";
 
 afterEach(cleanup);
 

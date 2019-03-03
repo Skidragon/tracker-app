@@ -2,12 +2,12 @@ import { Modal } from "antd";
 
 const confirm = Modal.confirm;
 function showConfirmModal(
-  title,
-  description,
+  title: string,
+  description: string,
   okCb,
-  okArgs,
+  okArgs: [],
   cancelCb,
-  cancelArgs
+  cancelArgs: []
 ) {
   confirm({
     title,
