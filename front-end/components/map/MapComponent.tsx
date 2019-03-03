@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { compose, withProps, fromRenderProps } from "recompose";
 import { Marker as IMarker } from "./interfaces/marker.interface";
 import Context from "../context/Context";
@@ -10,6 +10,7 @@ import {
   Polyline,
   DirectionsRenderer
 } from "react-google-maps";
+import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
 import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import ProgressCircle from "./ProgressCircle";
 import OptionsMenu from "./OptionsMenu";
@@ -116,11 +117,13 @@ const MapComponent = compose(
       />
       {markers.map((mark: IMarker) => {
         return (
-          <Marker
+          <MarkerWithLabel
             key={mark.id}
             draggable={mark.draggable}
             position={mark.position}
-            label={mark.label}
+            //using the length and a formula to center label on the marker
+            labelAnchor={new google.maps.Point(mark.label.length * 10, 30)}
+            labelStyle={mark.labelStyle}
             onClick={() => {
               setMarkerId(mark.id);
               setActiveMarker(mark);
@@ -147,7 +150,9 @@ const MapComponent = compose(
             }}
             className="marker"
             role="marker"
-          />
+          >
+            <div>{mark.label}</div>
+          </MarkerWithLabel>
         );
       })}
       {polylines.map(line => {
