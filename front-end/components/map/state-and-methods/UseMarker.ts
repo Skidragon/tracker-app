@@ -51,8 +51,8 @@ function useMarker() {
 
   const clearMarkerId = () => setMarkerId("");
 
-  const updateMarkerPosition = (id: string, e) => {
-    const updateIndex = markers.findIndex(mark => {
+  const updateMarkerPosition = (id: string, e: object) => {
+    const updateIndex = markers.findIndex((mark: Marker) => {
       return id === mark.id;
     });
 

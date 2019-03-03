@@ -5,4 +5,5 @@ export interface Marker {
   id: string;
   position: Position;
   label: string;
+  labelStyle: object;
 }

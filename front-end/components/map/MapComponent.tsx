@@ -44,7 +44,7 @@ const MapComponent = compose(
   }),
   withScriptjs,
   withGoogleMap
-)(props => {
+)(() => {
   const {
     //Methods
     addMarker,
@@ -88,7 +88,6 @@ const MapComponent = compose(
       options={{
         disableDefaultUI: true
       }}
-      className="map"
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
       <Context.Provider
@@ -110,11 +109,7 @@ const MapComponent = compose(
       </Context.Provider>
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash
-        isTrashActive={isTrashActive}
-        deleteMarker={deleteMarker}
-        setInTrashArea={setInTrashArea}
-      />
+      <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
       {markers.map((mark: IMarker) => {
         return (
           <MarkerWithLabel
@@ -135,7 +130,7 @@ const MapComponent = compose(
               setInfoWindowOpen(false);
             }}
             onDrag={enableTrash}
-            onDragEnd={e => {
+            onDragEnd={(e: object) => {
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
