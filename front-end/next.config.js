@@ -1,3 +1,4 @@
 // next.config.js
 const withCSS = require("@zeit/next-css");
-module.exports = withCSS();
+const withTypescript = require("@zeit/next-typescript");
+module.exports = withCSS(withTypescript());

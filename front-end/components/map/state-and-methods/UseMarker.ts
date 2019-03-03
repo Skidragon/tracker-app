@@ -1,20 +1,34 @@
 export { useMarker };
-
+import { Marker } from "../interfaces/marker.interface";
 import { useState } from "react";
 import uuidv4 from "uuid/v4";
 import { letters } from "../lib/labels";
 
-function useMarker(e) {
+function useMarker() {
   const [markers, setMarkers] = useState([]);
   const [markerId, setMarkerId] = useState("");
   const [activeMarker, setActiveMarker] = useState({});
 
   const addMarker = e => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    const newMarker = {
+    const lat: number = e.latLng.lat();
+    const lng: number = e.latLng.lng();
+    const newMarker: Marker = {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
+      url: "",
+      //@ts-ignore
+      labelStyle: {
+        backgroundColor: "#131313",
+        textAlign: "center",
+        opacity: ".8",
+        fontSize: "12px",
+        fontFamily: "monospace",
+        padding: "3px 6px",
+        color: "#E4E4E4",
+        borderRadius: "5px",
+        textOverflow: "eclipse",
+        pointerEvents: "none"
+      },
       id: uuidv4(),
       position: {
         lat,
@@ -26,7 +40,7 @@ function useMarker(e) {
     setMarkers([...markers, newMarker]);
   };
 
-  const deleteMarker = id => {
+  const deleteMarker = (id: string) => {
     const deleteIndex = markers.findIndex(mark => {
       return mark.id === id;
     });
@@ -38,15 +52,15 @@ function useMarker(e) {
 
   const clearMarkerId = () => setMarkerId("");
 
-  const updateMarkerPosition = (id, e) => {
-    const updateIndex = markers.findIndex(mark => {
+  const updateMarkerPosition = (id: string, e: object) => {
+    const updateIndex = markers.findIndex((mark: Marker) => {
       return id === mark.id;
     });
 
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
+    const lat: number = e.latLng.lat();
+    const lng: number = e.latLng.lng();
 
-    const updatedMarker = {
+    const updatedMarker: Marker = {
       ...markers[updateIndex],
       position: {
         lat,
@@ -61,7 +75,7 @@ function useMarker(e) {
     ]);
   };
 
-  const updateAllMarkerLabels = id => {
+  const updateAllMarkerLabels = (id: string) => {
     const startUpdateIndex =
       markers.findIndex(mark => {
         return mark.id === id;
@@ -97,7 +111,7 @@ function useMarker(e) {
       }
       return;
     }
-    const updatedMarker = {
+    const updatedMarker: Marker = {
       ...markers[updateIndex],
       hasReached: !markers[updateIndex].hasReached
     };
@@ -120,7 +134,6 @@ function useMarker(e) {
     updateMarkerPosition,
     setMarkerId,
     clearMarkerId,
-    updateMarkerPosition,
     updateAllMarkerLabels,
     setActiveMarker,
     clearActiveMarker,
