@@ -57,6 +57,8 @@ const MapComponent = compose(
     clearActiveMarker,
     toggleMarkerReached,
     setMarkers,
+    updateMarkerLabelName,
+    setMarkerDate,
     //State
     markers,
     activeMarker,
@@ -74,7 +76,7 @@ const MapComponent = compose(
 
   const { polylines, updateLines } = usePolyline();
   const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
-
+  const [dateAndTime, setDateAndTime] = useState({});
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -97,7 +99,9 @@ const MapComponent = compose(
           toggleMarkerReached,
           clearActiveMarker,
           setMarkers,
-          setActiveMarker
+          setActiveMarker,
+          updateMarkerLabelName,
+          setMarkerDate
         }}
       >
         {isInfoWindowOpen && (
@@ -124,6 +128,7 @@ const MapComponent = compose(
               url:
                 "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCAxMDEgMTUyIiBmaWxsPSJu%0D%0Ab25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNNDguMDE1%0D%0AOSAxNDcuMzE5TDEyLjQ4ODIgOTcuMzE2OEMxMC42MDY0IDk0LjY2ODMgMTIuNSA5MSAxNS43NDg5%0D%0AIDkxSDg1LjQyNDVDODguNjM5NiA5MSA5MC41NDA5IDk0LjYwMDggODguNzI3NyA5Ny4yNTU4TDU0%0D%0ALjU3OTggMTQ3LjI1OEM1My4wMDk0IDE0OS41NTggNDkuNjI4NyAxNDkuNTg5IDQ4LjAxNTkgMTQ3%0D%0ALjMxOVoiIGZpbGw9IiM5Njk2OTYiIHN0cm9rZT0iIzJCMkIyQiIvPgo8cGF0aCBkPSJNMTAwLjUg%0D%0ANTAuNVY5MEMxMDAuNSA5My4wMzc2IDk4LjAzNzYgOTUuNSA5NSA5NS41SDZDMi45NjI0MyA5NS41%0D%0AIDAuNSA5My4wMzc2IDAuNSA5MFY1MC41QzAuNSAyMi44ODU4IDIyLjg4NTggMC41IDUwLjUgMC41%0D%0AQzc4LjExNDIgMC41IDEwMC41IDIyLjg4NTggMTAwLjUgNTAuNVoiIGZpbGw9IiM5Njk2OTYiIHN0%0D%0Acm9rZT0iIzEzMTMxMyIvPgo8cGF0aCBkPSJNMTAgNTBDMTAgMjguNDYwOSAyNy40NjA5IDExIDQ5%0D%0AIDExSDUyQzczLjUzOTEgMTEgOTEgMjguNDYwOSA5MSA1MFY1MEM5MSA3MS41MzkxIDczLjUzOTEg%0D%0AODkgNTIgODlINDlDMjcuNDYwOSA4OSAxMCA3MS41MzkxIDEwIDUwVjUwWiIgZmlsbD0iIzJBMkQy%0D%0AOSIvPgo8L3N2Zz4K"
             }}
+            date={mark.date}
             onClick={() => {
               setMarkerId(mark.id);
               setActiveMarker(mark);

@@ -16,6 +16,7 @@ function useMarker() {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
       url: "",
+      date: null,
       //@ts-ignore
       labelStyle: {
         backgroundColor: "#131313",
@@ -127,6 +128,29 @@ function useMarker() {
   const clearActiveMarker = () => {
     setActiveMarker({});
   };
+  const updateMarkerLabelName = (marker: Marker, newLabel: string) => {
+    const updatedMarker = {
+      ...marker,
+      label: newLabel
+    };
+    setActiveMarker(updatedMarker);
+  };
+  const setMarkerDate = (marker: Marker, date: object) => {
+    const updatedMarker = {
+      ...marker,
+      date: date
+    };
+    setActiveMarker(updatedMarker);
+
+    const updateIndex = markers.findIndex(
+      (mark: Marker) => mark.id === marker.id
+    );
+    setMarkers([
+      ...markers.slice(0, updateIndex),
+      updatedMarker,
+      ...markers.slice(updateIndex + 1)
+    ]);
+  };
   return {
     //methods
     addMarker,
@@ -139,6 +163,8 @@ function useMarker() {
     clearActiveMarker,
     toggleMarkerReached,
     setMarkers,
+    updateMarkerLabelName,
+    setMarkerDate,
     //state
     markers,
     activeMarker,
