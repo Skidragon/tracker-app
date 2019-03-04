@@ -7,4 +7,5 @@ export interface Marker {
   label: string;
   labelStyle: object;
   url: string;
+  date: null | object;
 }
