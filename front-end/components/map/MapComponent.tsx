@@ -73,10 +73,8 @@ const MapComponent = compose(
     inTrashArea,
     isTrashActive
   } = useTrash();
-
   const { polylines, updateLines } = usePolyline();
   const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
-  const [dateAndTime, setDateAndTime] = useState({});
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -121,7 +119,7 @@ const MapComponent = compose(
             draggable={mark.draggable}
             position={mark.position}
             //using the length and a formula to center label on the marker
-            labelAnchor={new google.maps.Point(mark.label.length * 10, 50)}
+            labelAnchor={new google.maps.Point(0, 0)}
             labelStyle={mark.labelStyle}
             icon={{
               origin: new google.maps.Point(0, 0),

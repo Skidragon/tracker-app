@@ -1,12 +1,26 @@
+import { useContext, useState } from "react";
+import Context from "../../context/Context";
 import { Input, Tooltip } from "antd";
-
 interface MarkerNameInputProps {}
 
 const MarkerNameInput: React.SFC<MarkerNameInputProps> = () => {
-  const placeholderText = "Marker Label Name";
+  const { updateMarkerLabelName, activeMarker } = useContext(Context);
+  const maxLen = 20;
   return (
-    <Tooltip trigger={["focus"]} title={placeholderText} placement="topLeft">
-      <Input placeholder={placeholderText} maxLength={25} />
+    <Tooltip
+      trigger={["focus"]}
+      title={`Label Name - ${maxLen -
+        activeMarker.label.length} characters left`}
+      placement="topLeft"
+    >
+      <Input
+        placeholder={"Marker label name"}
+        maxLength={maxLen}
+        value={activeMarker.label}
+        onChange={e => {
+          updateMarkerLabelName(activeMarker, e.target.value);
+        }}
+      />
     </Tooltip>
   );
 };

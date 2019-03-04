@@ -129,10 +129,18 @@ function useMarker() {
     setActiveMarker({});
   };
   const updateMarkerLabelName = (marker: Marker, newLabel: string) => {
+    const updateIndex = markers.findIndex(
+      (mark: Marker) => mark.id === marker.id
+    );
     const updatedMarker = {
       ...marker,
       label: newLabel
     };
+    setMarkers([
+      ...markers.slice(0, updateIndex),
+      updatedMarker,
+      ...markers.slice(updateIndex + 1)
+    ]);
     setActiveMarker(updatedMarker);
   };
   const setMarkerDate = (marker: Marker, date: object) => {
