@@ -134,7 +134,7 @@ const MapComponent = compose(
             position={mark.position}
             //using the length and a formula to center label on the marker
             labelAnchor={
-              new google.maps.Point(centerLabel(mark.label.length), 50)
+              new google.maps.Point(centerLabel(mark.label.length), 26)
             }
             labelStyle={mark.labelStyle}
             icon={{
