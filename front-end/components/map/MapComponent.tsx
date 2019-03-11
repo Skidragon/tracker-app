@@ -84,6 +84,7 @@ const MapComponent = compose(
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
+
   return (
     <GoogleMap
       defaultZoom={6}
@@ -119,13 +120,22 @@ const MapComponent = compose(
       <ProgressCircle markers={markers} />
       <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
       {markers.map((mark: IMarker) => {
+        function centerLabel(len: number) {
+          if (len === 1) {
+            return 10;
+          } else {
+            return 10 + len * 3.1;
+          }
+        }
         return (
           <MarkerWithLabel
             key={mark.id}
             draggable={mark.draggable}
             position={mark.position}
             //using the length and a formula to center label on the marker
-            labelAnchor={new google.maps.Point(0, 0)}
+            labelAnchor={
+              new google.maps.Point(centerLabel(mark.label.length), 26)
+            }
             labelStyle={mark.labelStyle}
             icon={{
               origin: new google.maps.Point(0, 0),
