@@ -150,7 +150,7 @@ const MapComponent = compose(
             }}
             onDrag={enableTrash}
             onDragEnd={(e: MapEvent) => {
-              console.log(isTrashActive, inTrashArea);
+              // console.log(isTrashActive, inTrashArea);
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
