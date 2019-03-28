@@ -126,13 +126,13 @@ export default () => {
       }
       return;
     }
-    const marker: Marker = markers[updateIndex];
     const markerToUpdate: Marker = markers[updateIndex];
     const updatedMarker: Marker = {
-      ...marker,
-      url: markerToUpdate.hasReached ? GREY_PIN : CHECKED_PIN,
+      ...markerToUpdate,
       hasReached: !markerToUpdate.hasReached,
     };
+
+    updatedMarker.url = decideMarkerURL(updatedMarker);
 
     //@ts-ignore
     setMarkers([
@@ -167,8 +167,8 @@ export default () => {
       ...marker,
       date: date,
     };
+    updatedMarker.url = decideMarkerURL(updatedMarker);
     setActiveMarker(updatedMarker);
-
     const updateIndex = markers.findIndex(
       (mark: Marker) => mark.id === marker.id,
     );
@@ -212,6 +212,7 @@ export default () => {
     setMarkers,
     updateMarkerLabelName,
     setMarkerDate,
+    decideMarkerURL,
     //state
     markers,
     activeMarker,
