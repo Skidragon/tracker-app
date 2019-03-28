@@ -10,7 +10,10 @@
     "start": "next start",
     "test": "NODE_ENV=test jest --watch",
     "test-win": "SET NODE_ENV=test&& jest --watch",
-    "heroku-postbuild": "next build"
+    "heroku-postbuild": "next build",
+    "prettier": "prettier \"**/*.+(js|jsx|yml|yaml|ts|tsx|css|md|mdx)\"",
+    "format": "npm run prettier -- --write",
+    "validate": "npm run prettier -- --list-different"
   },
   "author": "",
   "license": "ISC",
@@ -56,6 +59,7 @@
     "jest": "^23.6.0",
     "jest-transform-graphql": "^2.1.0",
     "next-compose": "0.0.2",
+    "prettier": "1.16.4",
     "react-testing-library": "^6.0.0"
   },
   "jest": {
