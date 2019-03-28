@@ -1,7 +1,7 @@
-import { Marker } from "../interfaces/marker.interface";
-import { useState } from "react";
+import {Marker} from "../interfaces/marker.interface";
+import {useState} from "react";
 import uuidv4 from "uuid/v4";
-import { letters } from "../lib/labels";
+import {letters} from "../lib/labels";
 
 export default () => {
   const [markers, setMarkers] = useState([]);
@@ -27,14 +27,14 @@ export default () => {
         color: "#E4E4E4",
         borderRadius: "5px",
         textOverflow: "eclipse",
-        pointerEvents: "none"
+        pointerEvents: "none",
       },
       id: uuidv4(),
       position: {
         lat,
-        lng
+        lng,
       },
-      hasReached: false
+      hasReached: false,
     };
     // console.log(markers);
     setMarkers([...markers, newMarker]);
@@ -46,7 +46,7 @@ export default () => {
     });
     setMarkers([
       ...markers.slice(0, deleteIndex),
-      ...markers.slice(deleteIndex + 1)
+      ...markers.slice(deleteIndex + 1),
     ]);
   };
 
@@ -64,14 +64,14 @@ export default () => {
       ...markers[updateIndex],
       position: {
         lat,
-        lng
-      }
+        lng,
+      },
     };
 
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
-      ...markers.slice(updateIndex + 1)
+      ...markers.slice(updateIndex + 1),
     ]);
   };
 
@@ -84,13 +84,20 @@ export default () => {
     for (let i = startUpdateIndex; i < markers.length; i++) {
       let updatedMarker = {
         ...markers[i],
-        label: letters[(i - 1) % letters.length].toUpperCase()
+        label: letters[(i - 1) % letters.length].toUpperCase(),
       };
       affectedMarkers.push(updatedMarker);
     }
-    setMarkers([...markers.slice(0, startUpdateIndex - 1), ...affectedMarkers]);
+    setMarkers([
+      ...markers.slice(0, startUpdateIndex - 1),
+      ...affectedMarkers,
+    ]);
   };
-  const toggleMarkerReached = (id, prevConfirmModalCb, nextConfirmModalCb) => {
+  const toggleMarkerReached = (
+    id,
+    prevConfirmModalCb,
+    nextConfirmModalCb,
+  ) => {
     const updateIndex = markers.findIndex(mark => {
       return mark.id === id;
     });
@@ -113,13 +120,13 @@ export default () => {
     }
     const updatedMarker: Marker = {
       ...markers[updateIndex],
-      hasReached: !markers[updateIndex].hasReached
+      hasReached: !markers[updateIndex].hasReached,
     };
 
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
-      ...markers.slice(updateIndex + 1)
+      ...markers.slice(updateIndex + 1),
     ]);
     setActiveMarker(updatedMarker);
   };
@@ -129,33 +136,33 @@ export default () => {
   };
   const updateMarkerLabelName = (marker: Marker, newLabel: string) => {
     const updateIndex = markers.findIndex(
-      (mark: Marker) => mark.id === marker.id
+      (mark: Marker) => mark.id === marker.id,
     );
     const updatedMarker = {
       ...marker,
-      label: newLabel
+      label: newLabel,
     };
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
-      ...markers.slice(updateIndex + 1)
+      ...markers.slice(updateIndex + 1),
     ]);
     setActiveMarker(updatedMarker);
   };
   const setMarkerDate = (marker: Marker, date: object) => {
     const updatedMarker = {
       ...marker,
-      date: date
+      date: date,
     };
     setActiveMarker(updatedMarker);
 
     const updateIndex = markers.findIndex(
-      (mark: Marker) => mark.id === marker.id
+      (mark: Marker) => mark.id === marker.id,
     );
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
-      ...markers.slice(updateIndex + 1)
+      ...markers.slice(updateIndex + 1),
     ]);
   };
   return {
@@ -175,6 +182,6 @@ export default () => {
     //state
     markers,
     activeMarker,
-    markerId
+    markerId,
   };
 };

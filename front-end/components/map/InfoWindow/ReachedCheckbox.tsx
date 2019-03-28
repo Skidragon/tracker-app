@@ -1,10 +1,10 @@
-import { useContext } from "react";
+import {useContext} from "react";
 
-import { showConfirmModal } from "../antModals";
-import { changeMarkersProps } from "../helper-functions/helpers";
-import { Checkbox } from "antd";
+import {showConfirmModal} from "../antModals";
+import {changeMarkersProps} from "../helper-functions/helpers";
+import {Checkbox} from "antd";
 //@ts-ignore
-import { Marker } from "../interfaces/marker.interface";
+import {Marker} from "../interfaces/marker.interface";
 import MapContext from "../../context/MapContext";
 type ContextTypes = {
   markers: [Marker];
@@ -19,7 +19,7 @@ const ReachedCheckbox = () => {
     setMarkers,
     setActiveMarker,
     toggleMarkerReached,
-    activeMarker
+    activeMarker,
   }: ContextTypes = useContext(MapContext);
   return (
     <Checkbox
@@ -31,13 +31,13 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              { hasReached: true },
+              {hasReached: true},
               startIndex,
-              endIndex
+              endIndex,
             );
             setMarkers(newMarkers);
             setActiveMarker(newMarkers[endIndex]);
-          }
+          },
         );
         const nextReachedConfirm = showConfirmModal.bind(
           null,
@@ -46,18 +46,18 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              { hasReached: false },
+              {hasReached: false},
               startIndex,
-              endIndex
+              endIndex,
             );
             setMarkers(newMarkers);
             setActiveMarker(newMarkers[startIndex]);
-          }
+          },
         );
         toggleMarkerReached(
           activeMarker.id,
           prevReachedConfirm,
-          nextReachedConfirm
+          nextReachedConfirm,
         );
         // console.log(e.target.checked);
       }}

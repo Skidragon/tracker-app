@@ -1,4 +1,4 @@
-import { Position } from "./position.interface";
+import {Position} from "./position.interface";
 export interface Marker {
   hasReached: boolean;
   draggable: boolean;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 
 export default () => {
   const [isInfoWindowOpen, setInfoWindowOpen] = useState(false);
@@ -7,6 +7,6 @@ export default () => {
     //methods
     setInfoWindowOpen,
     //state
-    isInfoWindowOpen
+    isInfoWindowOpen,
   };
 };

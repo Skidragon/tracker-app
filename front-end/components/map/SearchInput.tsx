@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import {Input} from "antd";
 //@ts-ignore
 import styled from "styled-components";
 

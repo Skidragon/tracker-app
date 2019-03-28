@@ -1,6 +1,6 @@
-import { Progress } from "antd";
+import {Progress} from "antd";
 import styled from "styled-components";
-import { Marker, Theme } from "./interfaces/index";
+import {Marker, Theme} from "./interfaces/index";
 
 type PropTypes = {
   markers: Marker[];
@@ -13,7 +13,7 @@ const ProgressWrapper = styled(Progress)`
   border-radius: 50%;
 `;
 
-const ProgressCircle: React.SFC<PropTypes> = ({ markers }) => {
+const ProgressCircle: React.SFC<PropTypes> = ({markers}) => {
   const markerCalculations = calculateForProgress(markers);
   return (
     <ProgressWrapper
@@ -40,10 +40,10 @@ const calculateForProgress = (markers: Marker[]) => {
   }
   return {
     getPercentProgress: Math.floor(
-      (countMarkersReached / markers.length) * 100
+      (countMarkersReached / markers.length) * 100,
     ),
-    getMarkersReached: countMarkersReached
+    getMarkersReached: countMarkersReached,
   };
 };
 
-export { calculateForProgress, ProgressCircle as default };
+export {calculateForProgress, ProgressCircle as default};

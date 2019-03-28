@@ -1,9 +1,9 @@
 import uuidv4 from "uuid/v4";
-import { Marker } from "../interfaces/index";
-import { useState } from "react";
+import {Marker} from "../interfaces/index";
+import {useState} from "react";
 
 //Refer to lines.js for what they represent in this app
-import { greyLine, solidBlackLine, dashedLine } from "../lib/lines";
+import {greyLine, solidBlackLine, dashedLine} from "../lib/lines";
 
 export default () => {
   const [polylines, setPolylines] = useState([]);
@@ -18,13 +18,13 @@ export default () => {
       let markerLng = markers[i].position.lng;
 
       //store a vertex
-      line.push({ lat: markerLat, lng: markerLng });
+      line.push({lat: markerLat, lng: markerLng});
       //Once we have two vertices in the line array we can choose a line type
       if (line.length === 2) {
         //Depending on marker's status, this will choose what type of line to use
         if (markers[i - 1].hasReached === false) {
           lineOptions = {
-            ...greyLine
+            ...greyLine,
           };
         } else if (
           markers[i - 1].hasReached === true &&
@@ -32,7 +32,7 @@ export default () => {
           markers[i].hasReached === false
         ) {
           lineOptions = {
-            ...dashedLine
+            ...dashedLine,
           };
         } else if (
           markers[i - 1].hasReached === true &&
@@ -40,7 +40,7 @@ export default () => {
           markers[i].hasReached === true
         ) {
           lineOptions = {
-            ...solidBlackLine
+            ...solidBlackLine,
           };
         }
       }
@@ -48,9 +48,9 @@ export default () => {
       if (i > 0) {
         //@ts-ignore
         lineOptions["path"] = line.slice();
-        lines.push({ ...lineOptions, id: uuidv4() });
+        lines.push({...lineOptions, id: uuidv4()});
         //We start at the end of the new polyline and store that vertex
-        line = [{ lat: markerLat, lng: markerLng }];
+        line = [{lat: markerLat, lng: markerLng}];
       }
     }
     //@ts-ignore
@@ -61,6 +61,6 @@ export default () => {
     //methods
     updateLines,
     //state
-    polylines
+    polylines,
   };
 };

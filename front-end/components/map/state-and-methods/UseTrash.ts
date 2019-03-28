@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 export default () => {
   const [isTrashActive, setEnabled] = useState(false);
 
@@ -16,6 +16,6 @@ export default () => {
 
     //state
     inTrashArea,
-    isTrashActive
+    isTrashActive,
   };
 };

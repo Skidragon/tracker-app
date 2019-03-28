@@ -1,23 +1,23 @@
 import React from "react";
-import { render, cleanup, getNodeText } from "react-testing-library";
-import { changeMarkersProps } from "../helper-functions/helpers";
-import { markers } from "../dummy-data/markers";
+import {render, cleanup, getNodeText} from "react-testing-library";
+import {changeMarkersProps} from "../helper-functions/helpers";
+import {markers} from "../dummy-data/markers";
 
 afterEach(cleanup);
 
 describe("testing changeMarkerProps - allows me to change the marker properties in a range more easily", () => {
   it("changeMarkerProps is immutable", () => {
     const markersCopy = markers.slice();
-    changeMarkersProps(markers, { hasReached: true }, 0, 2);
+    changeMarkersProps(markers, {hasReached: true}, 0, 2);
 
     expect(markers).toMatchObject(markersCopy);
   });
   it("changes the specified markers' by given indexes", () => {
     const reachedChange0to1 = changeMarkersProps(
       markers,
-      { hasReached: true },
+      {hasReached: true},
       0,
-      1
+      1,
     );
     expect(reachedChange0to1[0].hasReached).toBeTruthy();
     expect(reachedChange0to1[1].hasReached).toBeTruthy();
@@ -25,9 +25,9 @@ describe("testing changeMarkerProps - allows me to change the marker properties 
 
     const reachedChange2to0 = changeMarkersProps(
       markers,
-      { hasReached: true },
+      {hasReached: true},
       2,
-      0
+      0,
     );
 
     expect(reachedChange2to0[0].hasReached).toBeTruthy();

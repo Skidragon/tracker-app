@@ -1,6 +1,6 @@
-export { MapLoadingElement };
+export {MapLoadingElement};
 
-import { Spin } from "antd";
+import {Spin} from "antd";
 
 const MapLoadingElement = () => (
   <div
@@ -8,7 +8,7 @@ const MapLoadingElement = () => (
       height: `100%`,
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
     }}
     className="loadingElement"
   >

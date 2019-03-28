@@ -1,12 +1,15 @@
-import { useEffect } from "react";
-import { compose, withProps } from "recompose";
-import { Marker as IMarker, Polyline as IPolyline } from "./interfaces/index";
+import {useEffect} from "react";
+import {compose, withProps} from "recompose";
+import {
+  Marker as IMarker,
+  Polyline as IPolyline,
+} from "./interfaces/index";
 import MapContext from "../context/MapContext";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Polyline
+  Polyline,
 } from "react-google-maps";
 import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
 import ProgressCircle from "./ProgressCircle";
@@ -16,12 +19,12 @@ import {
   useMarker,
   useTrash,
   usePolyline,
-  useInfoWindow
+  useInfoWindow,
 } from "./state-and-methods/index";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
-import { message } from "antd";
-import { MapLoadingElement } from "./MapLoadingElement";
-import { GREY_PIN_URL, CHECKED_PIN_URL } from "./map-icons/icons-urls";
+import {message} from "antd";
+import {MapLoadingElement} from "./MapLoadingElement";
+import {GREY_PIN_URL, CHECKED_PIN_URL} from "./map-icons/icons-urls";
 
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
@@ -34,15 +37,15 @@ const MapComponent = compose(
         style={{
           position: "relative",
           height: "100%",
-          width: "100%"
+          width: "100%",
         }}
         className="containerElement"
       />
     ),
-    mapElement: <div style={{ height: "100%" }} className="mapElement" />
+    mapElement: <div style={{height: "100%"}} className="mapElement" />,
   }),
   withScriptjs,
-  withGoogleMap
+  withGoogleMap,
 )(() => {
   const {
     //Methods
@@ -61,7 +64,7 @@ const MapComponent = compose(
     //State
     markers,
     activeMarker,
-    markerId
+    markerId,
   } = useMarker();
   const {
     //Methods
@@ -70,10 +73,10 @@ const MapComponent = compose(
     setInTrashArea,
     //State
     inTrashArea,
-    isTrashActive
+    isTrashActive,
   } = useTrash();
-  const { polylines, updateLines } = usePolyline();
-  const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
+  const {polylines, updateLines} = usePolyline();
+  const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -86,9 +89,9 @@ const MapComponent = compose(
         setInfoWindowOpen(false);
       }}
       options={{
-        disableDefaultUI: true
+        disableDefaultUI: true,
       }}
-      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+      defaultCenter={{lat: -34.397, lng: 150.644}}
     >
       <MapContext.Provider
         value={{
@@ -99,7 +102,7 @@ const MapComponent = compose(
           setMarkers,
           setActiveMarker,
           updateMarkerLabelName,
-          setMarkerDate
+          setMarkerDate,
         }}
       >
         {isInfoWindowOpen && (
@@ -111,7 +114,10 @@ const MapComponent = compose(
       </MapContext.Provider>
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
+      <Trash
+        isTrashActive={isTrashActive}
+        setInTrashArea={setInTrashArea}
+      />
       {markers.map((mark: IMarker) => {
         function centerLabel(len: number) {
           if (len === 1) {
@@ -132,7 +138,7 @@ const MapComponent = compose(
             labelStyle={mark.labelStyle}
             icon={{
               origin: new google.maps.Point(0, 0),
-              url: `${mark.hasReached ? CHECKED_PIN_URL : GREY_PIN_URL}`
+              url: `${mark.hasReached ? CHECKED_PIN_URL : GREY_PIN_URL}`,
             }}
             date={mark.date}
             onClick={() => {
@@ -177,7 +183,7 @@ const MapComponent = compose(
               strokeColor: line.strokeColor,
               strokeWeight: line.strokeWeight,
               strokeOpacity: line.strokeOpacity,
-              icons: line.icons
+              icons: line.icons,
             }}
           />
         );

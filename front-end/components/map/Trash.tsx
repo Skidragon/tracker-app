@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Icon } from "antd";
+import {Button, Icon} from "antd";
 // import DeleteTooltip from "./styles/DeleteTooltip";
 
 type PropTypes = {
@@ -16,7 +16,7 @@ const TrashWrapper = styled(Button)`
   right: 3%;
 `;
 
-const Trash: React.SFC<PropTypes> = ({ isTrashActive, setInTrashArea }) => {
+const Trash: React.SFC<PropTypes> = ({isTrashActive, setInTrashArea}) => {
   return (
     <TrashWrapper
       type={"danger"}

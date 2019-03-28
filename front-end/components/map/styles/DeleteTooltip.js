@@ -1,4 +1,4 @@
-import { Tooltip } from "antd";
+import {Tooltip} from "antd";
 import styled from "styled-components";
 const TooltipContent = styled.div`
   background: ${props => props.theme.red};
