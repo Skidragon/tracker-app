@@ -1,6 +1,6 @@
 export { usePolyline };
 import uuidv4 from "uuid/v4";
-import { Marker, Polyline } from "../interfaces/index";
+import { Marker } from "../interfaces/index";
 import { useState } from "react";
 
 //Refer to lines.js for what they represent in this app
@@ -11,7 +11,7 @@ const usePolyline = () => {
 
   const updateLines = (markers: [Marker]) => {
     const lines = [];
-    let line = [];
+    let line: any[] = [];
 
     for (let i = 0; i < markers.length; i++) {
       let lineOptions = {};
@@ -47,12 +47,14 @@ const usePolyline = () => {
       }
       //We connect our lines
       if (i > 0) {
+        //@ts-ignore
         lineOptions["path"] = line.slice();
         lines.push({ ...lineOptions, id: uuidv4() });
         //We start at the end of the new polyline and store that vertex
         line = [{ lat: markerLat, lng: markerLng }];
       }
     }
+    //@ts-ignore
     setPolylines(lines);
   };
 

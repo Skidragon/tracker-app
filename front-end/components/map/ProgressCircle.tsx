@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Marker } from "./interfaces/marker.interface";
 
 type PropTypes = {
-  markers: [Marker];
+  markers: Marker[];
 };
 //@ts-ignore
 const ProgressWrapper = styled(Progress)`

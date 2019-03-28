@@ -1,20 +1,16 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { compose, withProps, fromRenderProps } from "recompose";
-import { Marker as IMarker } from "./interfaces/marker.interface";
+import { useState, useEffect } from "react";
+import { compose, withProps } from "recompose";
+import { Marker as IMarker, Polyline as IPolyline } from "./interfaces/index";
 import Context from "../context/Context";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
-  Polyline,
-  DirectionsRenderer
+  Polyline
 } from "react-google-maps";
 import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
-import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import ProgressCircle from "./ProgressCircle";
 import OptionsMenu from "./OptionsMenu";
-import SearchInput from "./SearchInput";
 import Trash from "./Trash";
 import { useMarker } from "./state-and-methods/UseMarker";
 import { useTrash } from "./state-and-methods/UseTrash";
@@ -175,7 +171,7 @@ const MapComponent = compose(
           </MarkerWithLabel>
         );
       })}
-      {polylines.map(line => {
+      {polylines.map((line: IPolyline) => {
         return (
           <Polyline
             key={line.id}
