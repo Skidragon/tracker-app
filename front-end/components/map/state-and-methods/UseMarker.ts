@@ -121,9 +121,10 @@ export default () => {
       return;
     }
     const marker: Marker = markers[updateIndex];
+    const updateMarker: Marker = markers[updateIndex];
     const updatedMarker: Marker = {
       ...marker,
-      hasReached: !markers[updateIndex].hasReached,
+      hasReached: !updateMarker.hasReached,
     };
 
     //@ts-ignore
