@@ -1,7 +1,7 @@
 import {useContext} from "react";
 
 import {showConfirmModal} from "../antModals";
-import {changeMarkersProps} from "../helper-functions/helpers";
+import {changeMarkersProps} from "../helper-functions/changeMarkerProps";
 import {Checkbox} from "antd";
 //@ts-ignore
 import {Marker} from "../interfaces/marker.interface";
@@ -23,7 +23,7 @@ const ReachedCheckbox = () => {
   }: ContextTypes = useContext(MapContext);
   return (
     <Checkbox
-      onChange={e => {
+      onChange={() => {
         const prevReachedConfirm = showConfirmModal.bind(
           null,
           "Are you sure you reached this point?",

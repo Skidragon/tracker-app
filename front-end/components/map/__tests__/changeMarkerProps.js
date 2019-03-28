@@ -1,6 +1,6 @@
 import React from "react";
 import {render, cleanup, getNodeText} from "react-testing-library";
-import {changeMarkersProps} from "../helper-functions/helpers";
+import {changeMarkersProps} from "..../helper-functions/changeMarkerProps";
 import {markers} from "../dummy-data/markers";
 
 afterEach(cleanup);
