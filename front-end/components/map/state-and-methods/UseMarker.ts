@@ -36,7 +36,7 @@ export default () => {
       },
       hasReached: false,
     };
-
+    //@ts-ignore
     setMarkers([...markers, newMarker]);
   };
 
@@ -67,7 +67,7 @@ export default () => {
         lng,
       },
     };
-
+    //@ts-ignore
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
@@ -89,6 +89,7 @@ export default () => {
       };
       affectedMarkers.push(updatedMarker);
     }
+    //@ts-ignore
     setMarkers([
       ...markers.slice(0, startUpdateIndex - 1),
       ...affectedMarkers,
@@ -125,6 +126,7 @@ export default () => {
       hasReached: !markers[updateIndex].hasReached,
     };
 
+    //@ts-ignore
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
@@ -144,6 +146,7 @@ export default () => {
       ...marker,
       label: newLabel,
     };
+    //@ts-ignore
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
@@ -161,6 +164,7 @@ export default () => {
     const updateIndex = markers.findIndex(
       (mark: Marker) => mark.id === marker.id,
     );
+    //@ts-ignore
     setMarkers([
       ...markers.slice(0, updateIndex),
       updatedMarker,
