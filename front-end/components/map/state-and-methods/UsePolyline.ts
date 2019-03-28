@@ -1,4 +1,3 @@
-export { usePolyline };
 import uuidv4 from "uuid/v4";
 import { Marker } from "../interfaces/index";
 import { useState } from "react";
@@ -6,7 +5,7 @@ import { useState } from "react";
 //Refer to lines.js for what they represent in this app
 import { greyLine, solidBlackLine, dashedLine } from "../lib/lines";
 
-const usePolyline = () => {
+export default () => {
   const [polylines, setPolylines] = useState([]);
 
   const updateLines = (markers: [Marker]) => {

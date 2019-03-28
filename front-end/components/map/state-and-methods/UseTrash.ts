@@ -1,7 +1,5 @@
-export { useTrash };
-
 import { useState } from "react";
-const useTrash = () => {
+export default () => {
   const [isTrashActive, setEnabled] = useState(false);
 
   const disableTrash = () => setEnabled(false);

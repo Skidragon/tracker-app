@@ -1,10 +1,9 @@
-export { useMarker };
 import { Marker } from "../interfaces/marker.interface";
 import { useState } from "react";
 import uuidv4 from "uuid/v4";
 import { letters } from "../lib/labels";
 
-function useMarker() {
+export default () => {
   const [markers, setMarkers] = useState([]);
   const [markerId, setMarkerId] = useState("");
   const [activeMarker, setActiveMarker] = useState({});
@@ -178,4 +177,4 @@ function useMarker() {
     activeMarker,
     markerId
   };
-}
+};

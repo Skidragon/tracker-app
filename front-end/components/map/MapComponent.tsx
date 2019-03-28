@@ -12,12 +12,14 @@ import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithL
 import ProgressCircle from "./ProgressCircle";
 import OptionsMenu from "./OptionsMenu";
 import Trash from "./Trash";
-import { useMarker } from "./state-and-methods/UseMarker";
-import { useTrash } from "./state-and-methods/UseTrash";
-import { usePolyline } from "./state-and-methods/UsePolyline";
+import {
+  useMarker,
+  useTrash,
+  usePolyline,
+  useInfoWindow
+} from "./state-and-methods/index";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
-import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
-import { message, Spin } from "antd";
+import { message } from "antd";
 import { MapLoadingElement } from "./MapLoadingElement";
 import {
   GREY_PIN_URL,
