@@ -1,4 +1,4 @@
-import {Marker} from "../interfaces/marker.interface";
+import {Marker, MapEvent} from "../interfaces/index";
 import {useState} from "react";
 import uuidv4 from "uuid/v4";
 import {letters} from "../lib/labels";
@@ -8,7 +8,7 @@ export default () => {
   const [markerId, setMarkerId] = useState("");
   const [activeMarker, setActiveMarker] = useState({});
 
-  const addMarker = e => {
+  const addMarker = (e: MapEvent) => {
     const lat: number = e.latLng.lat();
     const lng: number = e.latLng.lng();
     const newMarker: Marker = {
@@ -36,12 +36,12 @@ export default () => {
       },
       hasReached: false,
     };
-    // console.log(markers);
+
     setMarkers([...markers, newMarker]);
   };
 
   const deleteMarker = (id: string) => {
-    const deleteIndex = markers.findIndex(mark => {
+    const deleteIndex = markers.findIndex((mark: Marker) => {
       return mark.id === id;
     });
     setMarkers([
@@ -52,16 +52,16 @@ export default () => {
 
   const clearMarkerId = () => setMarkerId("");
 
-  const updateMarkerPosition = (id: string, e: object) => {
+  const updateMarkerPosition = (id: string, e: MapEvent) => {
     const updateIndex = markers.findIndex((mark: Marker) => {
       return id === mark.id;
     });
 
     const lat: number = e.latLng.lat();
     const lng: number = e.latLng.lng();
-
+    const currMarker: Marker = markers[updateIndex];
     const updatedMarker: Marker = {
-      ...markers[updateIndex],
+      ...currMarker,
       position: {
         lat,
         lng,
@@ -77,13 +77,14 @@ export default () => {
 
   const updateAllMarkerLabels = (id: string) => {
     const startUpdateIndex =
-      markers.findIndex(mark => {
+      markers.findIndex((mark: Marker) => {
         return mark.id === id;
       }) + 1;
     const affectedMarkers = [];
     for (let i = startUpdateIndex; i < markers.length; i++) {
+      const marker: Marker = markers[i];
       let updatedMarker = {
-        ...markers[i],
+        ...marker,
         label: letters[(i - 1) % letters.length].toUpperCase(),
       };
       affectedMarkers.push(updatedMarker);
@@ -94,18 +95,18 @@ export default () => {
     ]);
   };
   const toggleMarkerReached = (
-    id,
-    prevConfirmModalCb,
-    nextConfirmModalCb,
+    id: string,
+    prevConfirmModalCb: Function,
+    nextConfirmModalCb: Function,
   ) => {
-    const updateIndex = markers.findIndex(mark => {
+    const updateIndex = markers.findIndex((mark: Marker) => {
       return mark.id === id;
     });
-    const prevMarker = markers[updateIndex - 1];
-    const nextMarker = markers[updateIndex + 1];
+    const prevMarker: Marker = markers[updateIndex - 1];
+    const nextMarker: Marker = markers[updateIndex + 1];
     if (prevMarker !== undefined && prevMarker.hasReached === false) {
       if (prevConfirmModalCb) {
-        const firstNotReachedIndex = markers.findIndex(mark => {
+        const firstNotReachedIndex = markers.findIndex((mark: Marker) => {
           return mark.hasReached === false;
         });
         prevConfirmModalCb([firstNotReachedIndex, updateIndex]);
@@ -118,8 +119,9 @@ export default () => {
       }
       return;
     }
+    const marker: Marker = markers[updateIndex];
     const updatedMarker: Marker = {
-      ...markers[updateIndex],
+      ...marker,
       hasReached: !markers[updateIndex].hasReached,
     };
 
