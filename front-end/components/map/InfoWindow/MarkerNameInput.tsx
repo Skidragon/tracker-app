@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import Context from "../../context/Context";
+import { useContext } from "react";
+import MapContext from "../../context/MapContext";
 import { Input, Tooltip } from "antd";
 interface MarkerNameInputProps {}
 
 const MarkerNameInput: React.SFC<MarkerNameInputProps> = () => {
-  const { updateMarkerLabelName, activeMarker } = useContext(Context);
+  const { updateMarkerLabelName, activeMarker } = useContext(MapContext);
   const maxLen = 20;
   return (
     <Tooltip

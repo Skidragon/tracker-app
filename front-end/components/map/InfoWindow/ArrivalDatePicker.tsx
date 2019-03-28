@@ -1,11 +1,11 @@
 import { DatePicker } from "antd";
 import { useContext } from "react";
-import Context from "../../context/Context";
+import MapContext from "../../context/MapContext";
 interface ArrivalDatePickerProps {}
 
 const ArrivalDatePicker: React.SFC<ArrivalDatePickerProps> = () => {
   // const { dateAndTime, setDateAndTime } = useContext(Context);
-  const { activeMarker, setMarkerDate } = useContext(Context);
+  const { activeMarker, setMarkerDate } = useContext(MapContext);
 
   function onChange(value: object, dateString: string) {
     console.log(typeof value, typeof dateString);

@@ -5,7 +5,7 @@ import { changeMarkersProps } from "../helper-functions/helpers";
 import { Checkbox } from "antd";
 //@ts-ignore
 import { Marker } from "../interfaces/marker.interface";
-import Context from "../../context/Context";
+import MapContext from "../../context/MapContext";
 type ContextTypes = {
   markers: [Marker];
   setMarkers: any;
@@ -20,7 +20,7 @@ const ReachedCheckbox = () => {
     setActiveMarker,
     toggleMarkerReached,
     activeMarker
-  }: ContextTypes = useContext(Context);
+  }: ContextTypes = useContext(MapContext);
   return (
     <Checkbox
       onChange={e => {

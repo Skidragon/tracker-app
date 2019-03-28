@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { compose, withProps } from "recompose";
 import { Marker as IMarker, Polyline as IPolyline } from "./interfaces/index";
-import Context from "../context/Context";
+import MapContext from "../context/MapContext";
 import {
   withScriptjs,
   withGoogleMap,
@@ -21,12 +21,7 @@ import {
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import { message } from "antd";
 import { MapLoadingElement } from "./MapLoadingElement";
-import {
-  GREY_PIN_URL,
-  CHECKED_PIN_URL,
-  YELLOW_EXCLAMATION_PIN_URL,
-  RED_EXCLAMATION_PIN_URL
-} from "./map-icons/icons-urls";
+import { GREY_PIN_URL, CHECKED_PIN_URL } from "./map-icons/icons-urls";
 
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
@@ -95,7 +90,7 @@ const MapComponent = compose(
       }}
       defaultCenter={{ lat: -34.397, lng: 150.644 }}
     >
-      <Context.Provider
+      <MapContext.Provider
         value={{
           activeMarker,
           markers,
@@ -113,7 +108,7 @@ const MapComponent = compose(
             setInfoWindowOpen={setInfoWindowOpen}
           />
         )}
-      </Context.Provider>
+      </MapContext.Provider>
       <OptionsMenu />
       <ProgressCircle markers={markers} />
       <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
