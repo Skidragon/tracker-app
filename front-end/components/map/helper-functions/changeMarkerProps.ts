@@ -1,8 +1,7 @@
-export {changeMarkersProps};
 import {Marker} from "../interfaces/index";
-const changeMarkersProps = (
+export default (
   markers: [Marker],
-  newAttributes: object,
+  newProps: object,
   startIndex: number,
   endIndex: number,
 ) => {
@@ -14,20 +13,20 @@ const changeMarkersProps = (
     for (let i = startIndex; i >= endIndex; i--) {
       newMarkers[i] = {
         ...markers[i],
-        ...newAttributes,
+        ...newProps,
       };
     }
   } else if (startIndex < endIndex) {
     for (let i = startIndex; i <= endIndex; i++) {
       newMarkers[i] = {
         ...markers[i],
-        ...newAttributes,
+        ...newProps,
       };
     }
   } else {
     newMarkers[startIndex] = {
       ...markers[startIndex],
-      ...newAttributes,
+      ...newProps,
     };
   }
   return newMarkers;

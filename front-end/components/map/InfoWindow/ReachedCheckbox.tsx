@@ -1,9 +1,7 @@
 import {useContext} from "react";
-
 import {showConfirmModal} from "../antModals";
-import {changeMarkersProps} from "../helper-functions/changeMarkerProps";
+import {changeMarkersProps} from "../helper-functions/index";
 import {Checkbox} from "antd";
-//@ts-ignore
 import {Marker} from "../interfaces/marker.interface";
 import MapContext from "../../context/MapContext";
 type ContextTypes = {

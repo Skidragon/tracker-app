@@ -3,6 +3,7 @@ import {compose, withProps} from "recompose";
 import {
   Marker as IMarker,
   Polyline as IPolyline,
+  MapEvent,
 } from "./interfaces/index";
 import MapContext from "../context/MapContext";
 import {
@@ -25,7 +26,7 @@ import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import {message} from "antd";
 import {MapLoadingElement} from "./MapLoadingElement";
 import {GREY_PIN, CHECKED_PIN} from "./map-icons/markerIcons";
-
+import {centerMarkerLabel} from "./helper-functions/index";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -119,13 +120,6 @@ const MapComponent = compose(
         setInTrashArea={setInTrashArea}
       />
       {markers.map((mark: IMarker) => {
-        function centerLabel(len: number) {
-          if (len === 1) {
-            return 10;
-          } else {
-            return 10 + len * 3.1;
-          }
-        }
         return (
           <MarkerWithLabel
             key={mark.id}
@@ -133,7 +127,10 @@ const MapComponent = compose(
             position={mark.position}
             //using the length and a formula to center label on the marker
             labelAnchor={
-              new google.maps.Point(centerLabel(mark.label.length), 26)
+              new google.maps.Point(
+                centerMarkerLabel(mark.label.length),
+                26,
+              )
             }
             labelStyle={mark.labelStyle}
             icon={{
@@ -153,7 +150,7 @@ const MapComponent = compose(
               setInfoWindowOpen(false);
             }}
             onDrag={enableTrash}
-            onDragEnd={(e: object) => {
+            onDragEnd={(e: MapEvent) => {
               console.log(isTrashActive, inTrashArea);
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
