@@ -5,7 +5,6 @@ import { Marker, Theme } from "./interfaces/index";
 type PropTypes = {
   markers: Marker[];
 };
-//@ts-ignore
 const ProgressWrapper = styled(Progress)`
   position: absolute;
   top: 3%;
