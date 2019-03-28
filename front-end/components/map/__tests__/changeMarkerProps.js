@@ -5,7 +5,7 @@ import { markers } from "../dummy-data/markers";
 
 afterEach(cleanup);
 
-describe("Testing helper functions that are not related to state and don't change it.", () => {
+describe("testing changeMarkerProps - allows me to change the marker properties in a range more easily", () => {
   it("changeMarkerProps is immutable", () => {
     const markersCopy = markers.slice();
     changeMarkersProps(markers, { hasReached: true }, 0, 2);
