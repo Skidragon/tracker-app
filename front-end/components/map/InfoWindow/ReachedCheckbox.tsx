@@ -4,6 +4,7 @@ import {changeMarkersProps} from "../helper-functions/index";
 import {Checkbox} from "antd";
 import {Marker} from "../interfaces/marker.interface";
 import MapContext from "../../context/MapContext";
+import {GREY_PIN, CHECKED_PIN} from "../map-icons/markerIcons";
 type ContextTypes = {
   markers: [Marker];
   setMarkers: any;
@@ -29,7 +30,7 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              {hasReached: true},
+              {hasReached: true, url: CHECKED_PIN},
               startIndex,
               endIndex,
             );
@@ -44,7 +45,7 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              {hasReached: false},
+              {hasReached: false, url: GREY_PIN},
               startIndex,
               endIndex,
             );

@@ -25,7 +25,6 @@ import {
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import {message} from "antd";
 import {MapLoadingElement} from "./MapLoadingElement";
-import {GREY_PIN, CHECKED_PIN} from "./map-icons/markerIcons";
 import {centerMarkerLabel} from "./helper-functions/index";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
@@ -135,7 +134,7 @@ const MapComponent = compose(
             labelStyle={mark.labelStyle}
             icon={{
               origin: new google.maps.Point(0, 0),
-              url: `${mark.hasReached ? CHECKED_PIN : GREY_PIN}`,
+              url: mark.url,
               scaledSize: new google.maps.Size(40, 60),
             }}
             date={mark.date}

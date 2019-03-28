@@ -2,7 +2,7 @@ import {Marker, MapEvent} from "../interfaces/index";
 import {useState} from "react";
 import uuidv4 from "uuid/v4";
 import {letters} from "../lib/labels";
-
+import {GREY_PIN, CHECKED_PIN} from "../map-icons/markerIcons";
 export default () => {
   const [markers, setMarkers] = useState([]);
   const [markerId, setMarkerId] = useState("");
@@ -14,7 +14,7 @@ export default () => {
     const newMarker: Marker = {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
-      url: "",
+      url: GREY_PIN,
       date: null,
       //@ts-ignore
       labelStyle: {
@@ -121,10 +121,11 @@ export default () => {
       return;
     }
     const marker: Marker = markers[updateIndex];
-    const updateMarker: Marker = markers[updateIndex];
+    const markerToUpdate: Marker = markers[updateIndex];
     const updatedMarker: Marker = {
       ...marker,
-      hasReached: !updateMarker.hasReached,
+      url: markerToUpdate.hasReached ? GREY_PIN : CHECKED_PIN,
+      hasReached: !markerToUpdate.hasReached,
     };
 
     //@ts-ignore
