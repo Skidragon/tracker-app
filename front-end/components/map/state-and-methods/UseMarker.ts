@@ -21,7 +21,7 @@ export default () => {
       draggable: true,
       label: letters[markers.length % letters.length].toUpperCase(),
       url: GREY_PIN,
-      date: null,
+      date: moment(),
       //@ts-ignore
       labelStyle: {
         backgroundColor: "#131313",
