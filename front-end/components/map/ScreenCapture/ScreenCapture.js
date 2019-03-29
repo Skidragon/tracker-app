@@ -57,73 +57,9 @@ export default class ScreenCapture extends Component {
   handStartCapture = () => this.setState({on: true});
 
   handleMouseMove = e => {
-    const {
-      isMouseDown,
-      windowWidth,
-      windowHeight,
-      startX,
-      startY,
-      borderWidth,
-    } = this.state;
-
-    let cropPositionTop = startY;
-    let cropPositionLeft = startX;
-    const endX = e.clientX;
-    const endY = e.clientY;
-    const isStartTop = endY >= startY;
-    const isStartBottom = endY <= startY;
-    const isStartLeft = endX >= startX;
-    const isStartRight = endX <= startX;
-    const isStartTopLeft = isStartTop && isStartLeft;
-    const isStartTopRight = isStartTop && isStartRight;
-    const isStartBottomLeft = isStartBottom && isStartLeft;
-    const isStartBottomRight = isStartBottom && isStartRight;
-    let newBorderWidth = borderWidth;
-    let cropWidth = 0;
-    let cropHeigth = 0;
-
-    if (isMouseDown) {
-      if (isStartTopLeft) {
-        newBorderWidth = `${startY}px ${windowWidth -
-          endX}px ${windowHeight - endY}px ${startX}px`;
-        cropWidth = endX - startX;
-        cropHeigth = endY - startY;
-      }
-
-      if (isStartTopRight) {
-        newBorderWidth = `${startY}px ${windowWidth -
-          startX}px ${windowHeight - endY}px ${endX}px`;
-        cropWidth = startX - endX;
-        cropHeigth = endY - startY;
-        cropPositionLeft = endX;
-      }
-
-      if (isStartBottomLeft) {
-        newBorderWidth = `${endY}px ${windowWidth -
-          endX}px ${windowHeight - startY}px ${startX}px`;
-        cropWidth = endX - startX;
-        cropHeigth = startY - endY;
-        cropPositionTop = endY;
-      }
-
-      if (isStartBottomRight) {
-        newBorderWidth = `${endY}px ${windowWidth -
-          startX}px ${windowHeight - startY}px ${endX}px`;
-        cropWidth = startX - endX;
-        cropHeigth = startY - endY;
-        cropPositionLeft = endX;
-        cropPositionTop = endY;
-      }
-    }
-
     this.setState({
       crossHairsTop: e.clientY,
       crossHairsLeft: e.clientX,
-      borderWidth: newBorderWidth,
-      cropWidth,
-      cropHeigth,
-      cropPositionTop: cropPositionTop,
-      cropPositionLeft: cropPositionLeft,
     });
   };
 
