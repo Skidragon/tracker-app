@@ -48,6 +48,7 @@
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.5.0",
     "styled-components": "^3.4.9",
+    "twilio": "^3.30.0",
     "uuid": "^3.3.2",
     "waait": "^1.0.2"
   },
