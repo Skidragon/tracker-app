@@ -1,37 +1,33 @@
-import React, {Component, Fragment} from "react";
+import {useEffect, useState} from "react";
 import CrossHairs from "./CrossHairs";
 import Overlay from "./Overlay";
 import CaptureRegion from "./CaptureRegion";
 
-export default class ScreenCapture extends Component {
-  static defaultProps = {
-    onStartCapture: () => null,
-    onEndCapture: () => null,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      on: true,
-      crossHairsTop: 0,
-      crossHairsLeft: 0,
-      isMouseDown: false,
-      windowWidth: 0,
-      windowHeight: 0,
-      imageURL: "",
+const ScreenCapture = ({children, captureWidth, captureHeight}) => {
+  const [on, setOn] = useState(true);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+
+  const [windowSize, setWindowSize] = useState({
+    width: 0,
+    height: 0,
+  });
+  const [crossHairs, setCrossHairs] = useState({
+    top: 0,
+    left: 0,
+  });
+
+  const [imageURL, setImageURL] = useState("");
+  const ESCAPE_KEY = 27;
+
+  useEffect(() => {
+    handleWindowResize();
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
     };
-    this.ESCAPE_KEY = 27;
-  }
+  }, []);
 
-  componentDidMount = () => {
-    this.handleWindowResize();
-    window.addEventListener("resize", this.handleWindowResize);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.handleWindowResize);
-  };
-
-  handleWindowResize = () => {
+  const handleWindowResize = () => {
     const windowWidth =
       window.innerWidth ||
       document.documentElement.clientWidth ||
@@ -41,79 +37,59 @@ export default class ScreenCapture extends Component {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
 
-    this.setState({
-      windowWidth,
-      windowHeight,
+    setWindowSize({
+      width: windowWidth,
+      height: windowHeight,
     });
   };
 
-  handStartCapture = () => this.setState({on: true});
+  const handleStartCapture = () => setOn(true);
 
-  handleMouseMove = e => {
-    this.setState({
-      crossHairsTop: e.clientY,
-      crossHairsLeft: e.clientX,
+  const handleMouseMove = e => {
+    setCrossHairs({
+      top: e.clientY,
+      left: e.clientX,
     });
   };
 
-  handleMouseDown = e => {
-    if (e.keyCode === this.ESCAPE_KEY) {
-      this.setState({
-        on: false,
-        isMouseDown: false,
-      });
-    }
-    this.setState(prevState => ({
-      isMouseDown: true,
-    }));
+  const handleMouseDown = () => {
+    setIsMouseDown(true);
+  };
+  const handleMouseUp = () => {
+    setOn(false);
+    setIsMouseDown(false);
   };
 
-  handleMouseUp = e => {
-    this.setState({
-      on: false,
-      isMouseDown: false,
-    });
-  };
-
-  renderChild = () => {
-    const {children} = this.props;
-
+  const renderChild = () => {
     const props = {
-      onStartCapture: this.handStartCapture,
+      onStartCapture: handleStartCapture,
     };
-
     if (typeof children === "function") return children(props);
     return children;
   };
 
-  render() {
-    const {
-      on,
-      crossHairsTop,
-      crossHairsLeft,
-      isMouseDown,
-      imageURL,
-    } = this.state;
-    const {captureWidth, captureHeight} = this.props;
-    if (!on) return this.renderChild();
-
+  if (!on) {
+    return renderChild();
+  } else {
     return (
       <div
-        onMouseMove={this.handleMouseMove}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
       >
-        {this.renderChild()}
+        {renderChild()}
         <Overlay>
           <CaptureRegion
-            left={crossHairsLeft}
-            top={crossHairsTop}
+            left={crossHairs.left}
+            top={crossHairs.top}
             height={captureHeight}
             width={captureWidth}
           />
         </Overlay>
-        <CrossHairs left={crossHairsLeft} top={crossHairsTop} />
+        <CrossHairs left={crossHairs.left} top={crossHairs.top} />
       </div>
     );
   }
-}
+};
+
+export default ScreenCapture;
