@@ -58,7 +58,7 @@ injectGlobal`
 const StyledPageWithTheme = withTheme(StyledPage);
 
 const cloudinaryCore = new cloudinary.Cloudinary({
-  cloud_name: process.env.CLOUD_NAME,
+  cloud_name: "adventure-tracker",
   secure: true,
 });
 class Page extends Component {

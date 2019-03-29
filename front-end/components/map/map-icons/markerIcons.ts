@@ -1,6 +1,6 @@
 import cloudinary from "cloudinary-core";
 const cloudinaryCore = new cloudinary.Cloudinary({
-  cloud_name: process.env.CLOUD_NAME,
+  cloud_name: "adventure-tracker",
   secure: true,
 });
 const GREY_PIN = cloudinaryCore.url("markers/grey-marker");
