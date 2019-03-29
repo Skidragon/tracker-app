@@ -6,25 +6,28 @@ export default class ScreenCapture extends Component {
     onStartCapture: () => null,
     onEndCapture: () => null,
   };
-
-  state = {
-    on: true,
-    startX: 0,
-    startY: 0,
-    endX: 0,
-    endY: 0,
-    crossHairsTop: 0,
-    crossHairsLeft: 0,
-    isMouseDown: false,
-    windowWidth: 0,
-    windowHeight: 0,
-    borderWidth: 0,
-    cropPositionTop: 0,
-    cropPositionLeft: 0,
-    cropWidth: 0,
-    cropHeigth: 0,
-    imageURL: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      on: true,
+      startX: 0,
+      startY: 0,
+      endX: 0,
+      endY: 0,
+      crossHairsTop: 0,
+      crossHairsLeft: 0,
+      isMouseDown: false,
+      windowWidth: 0,
+      windowHeight: 0,
+      borderWidth: 0,
+      cropPositionTop: 0,
+      cropPositionLeft: 0,
+      cropWidth: 0,
+      cropHeigth: 0,
+      imageURL: "",
+    };
+    this.ESCAPE_KEY = 27;
+  }
 
   componentDidMount = () => {
     this.handleWindowResize();
@@ -125,18 +128,14 @@ export default class ScreenCapture extends Component {
   };
 
   handleMouseDown = e => {
-    const startX = e.clientX;
-    const startY = e.clientY;
-
+    if (e.keyCode === this.ESCAPE_KEY) {
+      this.setState({
+        on: false,
+        isMouseDown: false,
+      });
+    }
     this.setState(prevState => ({
-      startX,
-      startY,
-      cropPositionTop: startY,
-      cropPositionLeft: startX,
       isMouseDown: true,
-      borderWidth: `${prevState.windowWidth}px ${
-        prevState.windowHeight
-      }px`,
     }));
   };
 
