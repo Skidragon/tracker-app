@@ -21,6 +21,7 @@ import {
   useTrash,
   usePolyline,
   useInfoWindow,
+  useScreenCapture,
 } from "./state-and-methods/index";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import {message} from "antd";
@@ -78,125 +79,128 @@ const MapComponent = compose(
   } = useTrash();
   const {polylines, updateLines} = usePolyline();
   const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
-  const [screenCapture, setScreenCapture] = useState("");
-  const onEndScreenCapture = (screenCapture: string) => {
-    setScreenCapture(screenCapture);
-    console.log(screenCapture);
-  };
+
+  const {screenCaptureImg, onEndScreenCapture} = useScreenCapture();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
 
   return (
-    <ScreenCapture onEndCapture={onEndScreenCapture}>
-      {({onStartCapture}: any) => (
-        <GoogleMap
-          defaultZoom={6}
-          onClick={e => {
-            addMarker(e);
-            setInfoWindowOpen(false);
-          }}
-          options={{
-            disableDefaultUI: true,
-          }}
-          defaultCenter={{lat: -34.397, lng: 150.644}}
-        >
-          <MapContext.Provider
-            value={{
-              activeMarker,
-              markers,
-              toggleMarkerReached,
-              clearActiveMarker,
-              setMarkers,
-              setActiveMarker,
-              updateMarkerLabelName,
-              setMarkerDate,
-              onStartCapture,
-            }}
-          >
-            {isInfoWindowOpen && (
-              <CustomInfoWindow
-                activeMarker={activeMarker}
-                setInfoWindowOpen={setInfoWindowOpen}
-              />
-            )}
-            <OptionsMenu />
-          </MapContext.Provider>
-          <ProgressCircle markers={markers} />
-          <Trash
-            isTrashActive={isTrashActive}
-            setInTrashArea={setInTrashArea}
-          />
-          {markers.map((mark: IMarker) => {
-            return (
-              <MarkerWithLabel
-                key={mark.id}
-                draggable={mark.draggable}
-                position={mark.position}
-                //using the length and a formula to center label on the marker
-                labelAnchor={
-                  new google.maps.Point(
-                    centerMarkerLabel(mark.label.length),
-                    26,
-                  )
-                }
-                labelStyle={mark.labelStyle}
-                icon={{
-                  origin: new google.maps.Point(0, 0),
-                  url: mark.url,
-                  scaledSize: new google.maps.Size(40, 60),
-                }}
-                date={mark.date}
-                onClick={() => {
-                  setMarkerId(mark.id);
-                  setActiveMarker(mark);
-                  setInfoWindowOpen(true);
-                }}
-                onDragStart={() => {
-                  setMarkerId(mark.id);
-                  setActiveMarker(mark);
-                  setInfoWindowOpen(false);
-                }}
-                onDrag={enableTrash}
-                onDragEnd={(e: MapEvent) => {
-                  // console.log(isTrashActive, inTrashArea);
-                  if (isTrashActive && inTrashArea) {
-                    message.info(`Marker has been deleted!`);
-                    deleteMarker(mark.id);
-                    updateAllMarkerLabels(mark.id);
-                    disableTrash();
-                    setInTrashArea(false);
-                    clearMarkerId();
-                  } else {
-                    updateMarkerPosition(mark.id, e);
-                    disableTrash();
-                    clearMarkerId();
+    <GoogleMap
+      defaultZoom={6}
+      onClick={e => {
+        addMarker(e);
+        setInfoWindowOpen(false);
+      }}
+      options={{
+        disableDefaultUI: true,
+      }}
+      defaultCenter={{lat: -34.397, lng: 150.644}}
+    >
+      <ScreenCapture
+        onEndCapture={onEndScreenCapture}
+        captureWidth={"400"}
+        captureHeight={"400"}
+      >
+        {({onStartCapture}: any) => (
+          <>
+            <MapContext.Provider
+              value={{
+                activeMarker,
+                markers,
+                toggleMarkerReached,
+                clearActiveMarker,
+                setMarkers,
+                setActiveMarker,
+                updateMarkerLabelName,
+                setMarkerDate,
+                onStartCapture,
+              }}
+            >
+              {isInfoWindowOpen && (
+                <CustomInfoWindow
+                  activeMarker={activeMarker}
+                  setInfoWindowOpen={setInfoWindowOpen}
+                />
+              )}
+              <OptionsMenu />
+            </MapContext.Provider>
+            <ProgressCircle markers={markers} />
+            <Trash
+              isTrashActive={isTrashActive}
+              setInTrashArea={setInTrashArea}
+            />
+            {markers.map((mark: IMarker) => {
+              return (
+                <MarkerWithLabel
+                  key={mark.id}
+                  draggable={mark.draggable}
+                  position={mark.position}
+                  //using the length and a formula to center label on the marker
+                  labelAnchor={
+                    new google.maps.Point(
+                      centerMarkerLabel(mark.label.length),
+                      26,
+                    )
                   }
-                }}
-                className="marker"
-                role="marker"
-              >
-                <div>{mark.label}</div>
-              </MarkerWithLabel>
-            );
-          })}
-          {polylines.map((line: IPolyline) => {
-            return (
-              <Polyline
-                key={line.id}
-                path={line.path}
-                options={{
-                  strokeColor: line.strokeColor,
-                  strokeWeight: line.strokeWeight,
-                  strokeOpacity: line.strokeOpacity,
-                  icons: line.icons,
-                }}
-              />
-            );
-          })}
-        </GoogleMap>
-      )}
-    </ScreenCapture>
+                  labelStyle={mark.labelStyle}
+                  icon={{
+                    origin: new google.maps.Point(0, 0),
+                    url: mark.url,
+                    scaledSize: new google.maps.Size(40, 60),
+                  }}
+                  date={mark.date}
+                  onClick={() => {
+                    setMarkerId(mark.id);
+                    setActiveMarker(mark);
+                    setInfoWindowOpen(true);
+                  }}
+                  onDragStart={() => {
+                    setMarkerId(mark.id);
+                    setActiveMarker(mark);
+                    setInfoWindowOpen(false);
+                  }}
+                  onDrag={enableTrash}
+                  onDragEnd={(e: MapEvent) => {
+                    // console.log(isTrashActive, inTrashArea);
+                    if (isTrashActive && inTrashArea) {
+                      message.info(`Marker has been deleted!`);
+                      deleteMarker(mark.id);
+                      updateAllMarkerLabels(mark.id);
+                      disableTrash();
+                      setInTrashArea(false);
+                      clearMarkerId();
+                    } else {
+                      updateMarkerPosition(mark.id, e);
+                      disableTrash();
+                      clearMarkerId();
+                    }
+                  }}
+                  className="marker"
+                  role="marker"
+                >
+                  <div>{mark.label}</div>
+                </MarkerWithLabel>
+              );
+            })}
+            {polylines.map((line: IPolyline) => {
+              return (
+                <Polyline
+                  key={line.id}
+                  path={line.path}
+                  options={{
+                    strokeColor: line.strokeColor,
+                    strokeWeight: line.strokeWeight,
+                    strokeOpacity: line.strokeOpacity,
+                    icons: line.icons,
+                  }}
+                />
+              );
+            })}
+          </>
+        )}
+      </ScreenCapture>
+    </GoogleMap>
   );
 });
 

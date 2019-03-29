@@ -8,7 +8,7 @@ export default class ScreenCapture extends Component {
   };
 
   state = {
-    on: false,
+    on: true,
     startX: 0,
     startY: 0,
     endX: 0,
@@ -141,43 +141,10 @@ export default class ScreenCapture extends Component {
   };
 
   handleMouseUp = e => {
-    this.handleClickTakeScreenShot();
     this.setState({
       on: false,
       isMouseDown: false,
       borderWidth: 0,
-    });
-  };
-
-  handleClickTakeScreenShot = () => {
-    const {
-      cropPositionTop,
-      cropPositionLeft,
-      cropWidth,
-      cropHeigth,
-    } = this.state;
-    const body = document.querySelector("body");
-
-    html2canvas(body).then(canvas => {
-      let croppedCanvas = document.createElement("canvas");
-      let croppedCanvasContext = croppedCanvas.getContext("2d");
-
-      croppedCanvas.width = cropWidth;
-      croppedCanvas.height = cropHeigth;
-
-      croppedCanvasContext.drawImage(
-        canvas,
-        cropPositionLeft,
-        cropPositionTop,
-        cropWidth,
-        cropHeigth,
-        0,
-        0,
-        cropWidth,
-        cropHeigth,
-      );
-
-      this.props.onEndCapture(croppedCanvas.toDataURL());
     });
   };
 
@@ -201,7 +168,7 @@ export default class ScreenCapture extends Component {
       isMouseDown,
       imageURL,
     } = this.state;
-
+    const {captureWidth, captureHeight} = this.props;
     if (!on) return this.renderChild();
 
     return (
@@ -211,10 +178,17 @@ export default class ScreenCapture extends Component {
         onMouseUp={this.handleMouseUp}
       >
         {this.renderChild()}
-        <div
-          className={`overlay ${isMouseDown && "highlighting"}`}
-          style={{borderWidth}}
-        />
+        <div className={`overlay`} style={{borderWidth}}>
+          <div
+            className="capture-region"
+            style={{
+              left: crossHairsLeft + "px",
+              top: crossHairsTop + "px",
+              width: captureWidth + "px",
+              height: captureHeight + "px",
+            }}
+          />
+        </div>
         <div
           className="crosshairs"
           style={{left: crossHairsLeft + "px", top: crossHairsTop + "px"}}
