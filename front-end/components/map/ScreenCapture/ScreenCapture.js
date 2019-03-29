@@ -1,8 +1,5 @@
 import {useEffect, useState} from "react";
-import CrossHairs from "./CrossHairs";
-import Overlay from "./Overlay";
-import CaptureRegion from "./CaptureRegion";
-
+import "./screen.css";
 const ScreenCapture = ({children, captureWidth, captureHeight}) => {
   const [on, setOn] = useState(true);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -78,15 +75,23 @@ const ScreenCapture = ({children, captureWidth, captureHeight}) => {
         onMouseUp={handleMouseUp}
       >
         {renderChild()}
-        <Overlay>
-          <CaptureRegion
-            left={crossHairs.left}
-            top={crossHairs.top}
-            height={captureHeight}
-            width={captureWidth}
-          />
-        </Overlay>
-        <CrossHairs left={crossHairs.left} top={crossHairs.top} />
+        <div className={`overlay`} />
+        <div
+          className="crosshairs"
+          style={{
+            left: crossHairs.left + "px",
+            top: crossHairs.top + "px",
+          }}
+        />
+        <div
+          className="capture-region"
+          style={{
+            left: crossHairs.left + "px",
+            top: crossHairs.top + "px",
+            width: captureWidth + "px",
+            height: captureHeight + "px",
+          }}
+        />
       </div>
     );
   }
