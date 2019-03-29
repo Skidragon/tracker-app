@@ -1,7 +1,9 @@
 import {Menu, Dropdown, Button, Icon, Avatar, Badge, message} from "antd";
 import styled from "styled-components";
+import {useContext} from "react";
 //@ts-ignore
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import MapContext from "../context/MapContext";
 const OptionsMenuWrapper = styled.div`
   position: absolute;
   left: 3%;
@@ -31,8 +33,18 @@ const MainMenu = styled(Menu)`
 
 //@ts-ignore
 const OverlayMenu = props => {
+  const {onStartCapture} = useContext(MapContext);
   return (
     <MainMenu>
+      <MenuItem
+        onClick={() => {
+          onStartCapture();
+          console.log(onStartCapture, "test");
+        }}
+      >
+        <Icon type="save" />
+        Save Trip
+      </MenuItem>
       <MenuItem>
         <Icon type="edit" />
         Edit
