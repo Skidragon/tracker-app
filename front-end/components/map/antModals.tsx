@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import {Modal} from "antd";
 
 const confirm = Modal.confirm;
 function showConfirmModal(
@@ -7,7 +7,7 @@ function showConfirmModal(
   okCb,
   okArgs: [],
   cancelCb,
-  cancelArgs: []
+  cancelArgs: [],
 ) {
   confirm({
     title,
@@ -21,8 +21,8 @@ function showConfirmModal(
       if (cancelCb) {
         cancelCb(...cancelArgs);
       }
-    }
+    },
   });
 }
 
-export { showConfirmModal };
+export {showConfirmModal};

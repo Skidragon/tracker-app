@@ -1,4 +1,4 @@
-export { markers };
+export {markers};
 const markers = [
   {
     draggable: true,
@@ -6,9 +6,9 @@ const markers = [
     id: "whatever",
     position: {
       lat: 35,
-      lng: 35
+      lng: 35,
     },
-    hasReached: false
+    hasReached: false,
   },
   {
     draggable: true,
@@ -16,9 +16,9 @@ const markers = [
     id: "whatever",
     position: {
       lat: 35,
-      lng: 35
+      lng: 35,
     },
-    hasReached: false
+    hasReached: false,
   },
   {
     draggable: true,
@@ -26,9 +26,9 @@ const markers = [
     id: "whatever",
     position: {
       lat: 35,
-      lng: 35
+      lng: 35,
     },
-    hasReached: false
+    hasReached: false,
   },
   {
     draggable: true,
@@ -36,9 +36,9 @@ const markers = [
     id: "whatever",
     position: {
       lat: 35,
-      lng: 35
+      lng: 35,
     },
-    hasReached: false
+    hasReached: false,
   },
   {
     draggable: true,
@@ -46,8 +46,8 @@ const markers = [
     id: "whatever",
     position: {
       lat: 35,
-      lng: 35
+      lng: 35,
     },
-    hasReached: false
-  }
+    hasReached: false,
+  },
 ];

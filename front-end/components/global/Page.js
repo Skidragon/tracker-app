@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled, {
   ThemeProvider,
   injectGlobal,
-  withTheme
+  withTheme,
 } from "styled-components";
 import Meta from "./Meta";
-
+import cloudinary from "cloudinary-core";
+import PageContext from "../context/PageContext";
 const theme = {
   black: "#2E2E2E",
   grey: "#E7E7E7",
@@ -22,8 +23,6 @@ const theme = {
   lightgreen: "#9DFF8D",
   opacityblack: "rgba(29,27,27,51%)",
   opacitygrey: "rgba(71,71,71,86%)",
-  navbarHeight: "11rem",
-  sidebarWidth: "35rem"
 };
 
 const StyledPage = styled.div`
@@ -57,15 +56,26 @@ injectGlobal`
 
 // withTheme allows all pages to have access to theme prop
 const StyledPageWithTheme = withTheme(StyledPage);
+
+const cloudinaryCore = new cloudinary.Cloudinary({
+  cloud_name: "adventure-tracker",
+  secure: true,
+});
 class Page extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <StyledPageWithTheme>
-          <Meta />
-          {this.props.children}
-        </StyledPageWithTheme>
-      </ThemeProvider>
+      <PageContext.Provider
+        value={{
+          cloudinaryCore,
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <StyledPageWithTheme>
+            <Meta />
+            {this.props.children}
+          </StyledPageWithTheme>
+        </ThemeProvider>
+      </PageContext.Provider>
     );
   }
 }

@@ -1,7 +1,7 @@
-import { Menu, Dropdown, Button, Icon, Avatar, Badge, message } from "antd";
+import {Menu, Dropdown, Button, Icon, Avatar, Badge, message} from "antd";
 import styled from "styled-components";
 //@ts-ignore
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 const OptionsMenuWrapper = styled.div`
   position: absolute;
   left: 3%;

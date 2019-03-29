@@ -1,11 +1,10 @@
-import { useContext } from "react";
-
-import { showConfirmModal } from "../antModals";
-import { changeMarkersProps } from "../helper-functions/helpers";
-import { Checkbox } from "antd";
-//@ts-ignore
-import { Marker } from "../interfaces/marker.interface";
-import Context from "../../context/Context";
+import {useContext} from "react";
+import {showConfirmModal} from "../antModals";
+import {changeMarkersProps} from "../helper-functions/index";
+import {Checkbox} from "antd";
+import {Marker} from "../interfaces/marker.interface";
+import MapContext from "../../context/MapContext";
+import {GREY_PIN, CHECKED_PIN} from "../map-icons/markerIcons";
 type ContextTypes = {
   markers: [Marker];
   setMarkers: any;
@@ -19,11 +18,11 @@ const ReachedCheckbox = () => {
     setMarkers,
     setActiveMarker,
     toggleMarkerReached,
-    activeMarker
-  }: ContextTypes = useContext(Context);
+    activeMarker,
+  }: ContextTypes = useContext(MapContext);
   return (
     <Checkbox
-      onChange={e => {
+      onChange={() => {
         const prevReachedConfirm = showConfirmModal.bind(
           null,
           "Are you sure you reached this point?",
@@ -31,13 +30,13 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              { hasReached: true },
+              {hasReached: true, url: CHECKED_PIN},
               startIndex,
-              endIndex
+              endIndex,
             );
             setMarkers(newMarkers);
             setActiveMarker(newMarkers[endIndex]);
-          }
+          },
         );
         const nextReachedConfirm = showConfirmModal.bind(
           null,
@@ -46,18 +45,18 @@ const ReachedCheckbox = () => {
           (startIndex: number, endIndex: number) => {
             const newMarkers = changeMarkersProps(
               markers,
-              { hasReached: false },
+              {hasReached: false, url: GREY_PIN},
               startIndex,
-              endIndex
+              endIndex,
             );
             setMarkers(newMarkers);
             setActiveMarker(newMarkers[startIndex]);
-          }
+          },
         );
         toggleMarkerReached(
           activeMarker.id,
           prevReachedConfirm,
-          nextReachedConfirm
+          nextReachedConfirm,
         );
         // console.log(e.target.checked);
       }}

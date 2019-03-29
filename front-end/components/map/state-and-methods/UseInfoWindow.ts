@@ -1,14 +1,12 @@
-export { useInfoWindow };
+import {useState} from "react";
 
-import { useState } from "react";
-
-function useInfoWindow() {
+export default () => {
   const [isInfoWindowOpen, setInfoWindowOpen] = useState(false);
 
   return {
     //methods
     setInfoWindowOpen,
     //state
-    isInfoWindowOpen
+    isInfoWindowOpen,
   };
-}
+};

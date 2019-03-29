@@ -1,22 +1,22 @@
-import { Button, Card } from "antd";
-import { InfoWindow, GoogleMap } from "react-google-maps";
-import { useRef, useEffect } from "react";
+import {Button, Card} from "antd";
+import {InfoWindow, GoogleMap} from "react-google-maps";
+import {useRef, useEffect} from "react";
 import styled from "styled-components";
 import ReachedCheckbox from "./ReachedCheckbox";
 import MarkerNameInput from "./MarkerNameInput";
 import ArrivalDatePicker from "./ArrivalDatePicker";
 
-const CustomInfoWindow = ({ activeMarker, setInfoWindowOpen }) => {
+const CustomInfoWindow = ({activeMarker, setInfoWindowOpen}) => {
   const position =
     activeMarker.position !== undefined
       ? activeMarker.position
-      : { lat: 0, lng: 0 };
+      : {lat: 0, lng: 0};
   return (
     <StyledInfoWindow
-      position={{ lat: position.lat, lng: position.lng }}
+      position={{lat: position.lat, lng: position.lng}}
       options={{
         pixelOffset: new google.maps.Size(0, -60),
-        disableAutoPan: false
+        disableAutoPan: false,
       }}
       activeMarker={activeMarker}
     >
@@ -34,10 +34,10 @@ const CustomInfoWindow = ({ activeMarker, setInfoWindowOpen }) => {
             display: "flex",
             flexDirection: "column",
             padding: "0",
-            marginTop: "32px"
+            marginTop: "32px",
           }}
         >
-          <CardGrid style={{ border: "none" }}>
+          <CardGrid style={{border: "none"}}>
             <MarkerNameInput />
           </CardGrid>
           <CardGrid>

@@ -1,35 +1,31 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
-import { compose, withProps, fromRenderProps } from "recompose";
-import { Marker as IMarker } from "./interfaces/marker.interface";
-import Context from "../context/Context";
+import {useEffect} from "react";
+import {compose, withProps} from "recompose";
+import {
+  Marker as IMarker,
+  Polyline as IPolyline,
+  MapEvent,
+} from "./interfaces/index";
+import MapContext from "../context/MapContext";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
   Polyline,
-  DirectionsRenderer
 } from "react-google-maps";
 import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
-import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import ProgressCircle from "./ProgressCircle";
 import OptionsMenu from "./OptionsMenu";
-import SearchInput from "./SearchInput";
 import Trash from "./Trash";
-import { useMarker } from "./state-and-methods/UseMarker";
-import { useTrash } from "./state-and-methods/UseTrash";
-import { usePolyline } from "./state-and-methods/UsePolyline";
-import CustomInfoWindow from "./InfoWindow/InfoWindow";
-import { useInfoWindow } from "./state-and-methods/UseInfoWindow";
-import { message, Spin } from "antd";
-import { MapLoadingElement } from "./MapLoadingElement";
 import {
-  GREY_PIN_URL,
-  CHECKED_PIN_URL,
-  YELLOW_EXCLAMATION_PIN_URL,
-  RED_EXCLAMATION_PIN_URL
-} from "./map-icons/icons-urls";
-
+  useMarker,
+  useTrash,
+  usePolyline,
+  useInfoWindow,
+} from "./state-and-methods/index";
+import CustomInfoWindow from "./InfoWindow/InfoWindow";
+import {message} from "antd";
+import {MapLoadingElement} from "./MapLoadingElement";
+import {centerMarkerLabel} from "./helper-functions/index";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -41,15 +37,15 @@ const MapComponent = compose(
         style={{
           position: "relative",
           height: "100%",
-          width: "100%"
+          width: "100%",
         }}
         className="containerElement"
       />
     ),
-    mapElement: <div style={{ height: "100%" }} className="mapElement" />
+    mapElement: <div style={{height: "100%"}} className="mapElement" />,
   }),
   withScriptjs,
-  withGoogleMap
+  withGoogleMap,
 )(() => {
   const {
     //Methods
@@ -68,7 +64,7 @@ const MapComponent = compose(
     //State
     markers,
     activeMarker,
-    markerId
+    markerId,
   } = useMarker();
   const {
     //Methods
@@ -77,10 +73,10 @@ const MapComponent = compose(
     setInTrashArea,
     //State
     inTrashArea,
-    isTrashActive
+    isTrashActive,
   } = useTrash();
-  const { polylines, updateLines } = usePolyline();
-  const { isInfoWindowOpen, setInfoWindowOpen } = useInfoWindow();
+  const {polylines, updateLines} = usePolyline();
+  const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -93,11 +89,11 @@ const MapComponent = compose(
         setInfoWindowOpen(false);
       }}
       options={{
-        disableDefaultUI: true
+        disableDefaultUI: true,
       }}
-      defaultCenter={{ lat: -34.397, lng: 150.644 }}
+      defaultCenter={{lat: -34.397, lng: 150.644}}
     >
-      <Context.Provider
+      <MapContext.Provider
         value={{
           activeMarker,
           markers,
@@ -106,7 +102,7 @@ const MapComponent = compose(
           setMarkers,
           setActiveMarker,
           updateMarkerLabelName,
-          setMarkerDate
+          setMarkerDate,
         }}
       >
         {isInfoWindowOpen && (
@@ -115,18 +111,14 @@ const MapComponent = compose(
             setInfoWindowOpen={setInfoWindowOpen}
           />
         )}
-      </Context.Provider>
+      </MapContext.Provider>
       <OptionsMenu />
       <ProgressCircle markers={markers} />
-      <Trash isTrashActive={isTrashActive} setInTrashArea={setInTrashArea} />
+      <Trash
+        isTrashActive={isTrashActive}
+        setInTrashArea={setInTrashArea}
+      />
       {markers.map((mark: IMarker) => {
-        function centerLabel(len: number) {
-          if (len === 1) {
-            return 10;
-          } else {
-            return 10 + len * 3.1;
-          }
-        }
         return (
           <MarkerWithLabel
             key={mark.id}
@@ -134,12 +126,16 @@ const MapComponent = compose(
             position={mark.position}
             //using the length and a formula to center label on the marker
             labelAnchor={
-              new google.maps.Point(centerLabel(mark.label.length), 26)
+              new google.maps.Point(
+                centerMarkerLabel(mark.label.length),
+                26,
+              )
             }
             labelStyle={mark.labelStyle}
             icon={{
               origin: new google.maps.Point(0, 0),
-              url: `${mark.hasReached ? CHECKED_PIN_URL : GREY_PIN_URL}`
+              url: mark.url,
+              scaledSize: new google.maps.Size(40, 60),
             }}
             date={mark.date}
             onClick={() => {
@@ -153,8 +149,8 @@ const MapComponent = compose(
               setInfoWindowOpen(false);
             }}
             onDrag={enableTrash}
-            onDragEnd={(e: object) => {
-              console.log(isTrashActive, inTrashArea);
+            onDragEnd={(e: MapEvent) => {
+              // console.log(isTrashActive, inTrashArea);
               if (isTrashActive && inTrashArea) {
                 message.info(`Marker has been deleted!`);
                 deleteMarker(mark.id);
@@ -175,7 +171,7 @@ const MapComponent = compose(
           </MarkerWithLabel>
         );
       })}
-      {polylines.map(line => {
+      {polylines.map((line: IPolyline) => {
         return (
           <Polyline
             key={line.id}
@@ -184,7 +180,7 @@ const MapComponent = compose(
               strokeColor: line.strokeColor,
               strokeWeight: line.strokeWeight,
               strokeOpacity: line.strokeOpacity,
-              icons: line.icons
+              icons: line.icons,
             }}
           />
         );
