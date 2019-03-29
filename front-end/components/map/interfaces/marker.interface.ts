@@ -1,4 +1,6 @@
 import {Position} from "./position.interface";
+import {Moment} from "moment";
+
 export interface Marker {
   hasReached: boolean;
   draggable: boolean;
@@ -7,5 +9,5 @@ export interface Marker {
   label: string;
   labelStyle: object;
   url: string;
-  date: null | object;
+  date: Moment;
 }

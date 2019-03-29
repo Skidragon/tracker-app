@@ -8,7 +8,7 @@ import {
   YELLOW_EXCLAMATION_PIN,
   RED_EXCLAMATION_PIN,
 } from "../map-icons/markerIcons";
-import moment from "moment";
+import moment, {Moment} from "moment";
 export default () => {
   const [markers, setMarkers] = useState([]);
   const [markerId, setMarkerId] = useState("");
@@ -162,7 +162,7 @@ export default () => {
     ]);
     setActiveMarker(updatedMarker);
   };
-  const setMarkerDate = (marker: Marker, date: object) => {
+  const setMarkerDate = (marker: Marker, date: Moment) => {
     const updatedMarker = {
       ...marker,
       date: date,
