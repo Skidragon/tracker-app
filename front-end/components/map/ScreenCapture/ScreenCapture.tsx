@@ -1,14 +1,19 @@
 import {useEffect, useState, MouseEvent, ReactNode} from "react";
 import "./screen.less";
+import {mapImageUrlGenerator} from "../helper-functions";
 
 interface Props {
   children: ReactNode;
+  lat: number;
+  lng: number;
   captureWidth: string;
   captureHeight: string;
 }
 
 const ScreenCapture: React.SFC<Props> = ({
   children,
+  lat,
+  lng,
   captureWidth,
   captureHeight,
 }) => {
@@ -66,6 +71,17 @@ const ScreenCapture: React.SFC<Props> = ({
   const handleMouseUp = () => {
     setOn(false);
     setIsMouseDown(false);
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    mapImageUrlGenerator(
+      lat,
+      lng,
+      captureWidth,
+      captureHeight,
+      "png",
+      "roadmap",
+      //@ts-ignore
+      apiKey,
+    );
   };
 
   const renderChild = () => {
