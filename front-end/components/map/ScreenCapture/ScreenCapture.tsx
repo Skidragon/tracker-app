@@ -1,6 +1,17 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, MouseEvent, ReactNode} from "react";
 import "./screen.less";
-const ScreenCapture = ({children, captureWidth, captureHeight}) => {
+
+interface Props {
+  children: ReactNode;
+  captureWidth: string;
+  captureHeight: string;
+}
+
+const ScreenCapture: React.SFC<Props> = ({
+  children,
+  captureWidth,
+  captureHeight,
+}) => {
   const [on, setOn] = useState(true);
   const [isMouseDown, setIsMouseDown] = useState(false);
 
@@ -42,7 +53,7 @@ const ScreenCapture = ({children, captureWidth, captureHeight}) => {
 
   const handleStartCapture = () => setOn(true);
 
-  const handleMouseMove = e => {
+  const handleMouseMove = (e: MouseEvent) => {
     setCrossHairs({
       top: e.clientY,
       left: e.clientX,
