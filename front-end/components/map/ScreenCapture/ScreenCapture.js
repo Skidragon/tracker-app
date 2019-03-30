@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import "./screen.css";
+import "./screen.less";
 const ScreenCapture = ({children, captureWidth, captureHeight}) => {
   const [on, setOn] = useState(true);
   const [isMouseDown, setIsMouseDown] = useState(false);

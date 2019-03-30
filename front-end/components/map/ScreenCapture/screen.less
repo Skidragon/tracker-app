@@ -4,31 +4,27 @@
   position: absolute;
   width: 100%;
   z-index: 2147483645;
-}
-
-.crosshairs::before,
-.crosshairs::after {
-  content: "";
+  &::before,
+  &::after {
+    content: "";
   height: 100%;
   width: 100%;
   position: absolute;
   border: none;
+  }
+  &::before {
+    left: -100%;
+    top: -100%;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  &::after {
+    left: 0px;
+    top: 0px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+  }
 }
-
-.crosshairs::before {
-  left: -100%;
-  top: -100%;
-  border-right: 1px solid rgba(255, 255, 255, 0.3);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.crosshairs::after {
-  left: 0px;
-  top: 0px;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-}
-
 .overlay {
   position: fixed;
   top: 0;
