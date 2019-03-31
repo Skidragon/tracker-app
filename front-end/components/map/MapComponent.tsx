@@ -80,17 +80,39 @@ const MapComponent = compose(
   const {polylines, updateLines} = usePolyline();
   const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
 
-  const {screenCaptureImg, onEndScreenCapture} = useScreenCapture();
+  const {
+    //state
+    screenLatLng,
+    isScreenOn,
+    //methods
+    setScreenOn,
+    setScreenLatLng,
+    exitScreenCapture,
+    onEndScreenCapture,
+  } = useScreenCapture();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
 
+  useEffect(() => {
+    window.addEventListener("keyup", exitScreenCapture);
+    return () => {
+      window.removeEventListener("keyup", exitScreenCapture);
+    };
+  }, []);
+  useEffect(() => {
+    onEndScreenCapture(400, 400);
+  }, [screenLatLng]);
   return (
     <GoogleMap
       defaultZoom={6}
       onClick={e => {
-        addMarker(e);
-        setInfoWindowOpen(false);
+        if (!isScreenOn) {
+          addMarker(e);
+          setInfoWindowOpen(false);
+        } else {
+          setScreenLatLng(e);
+        }
       }}
       options={{
         disableDefaultUI: true,
@@ -98,108 +120,103 @@ const MapComponent = compose(
       defaultCenter={{lat: -34.397, lng: 150.644}}
     >
       <ScreenCapture
-        onEndCapture={onEndScreenCapture}
+        isScreenOn={isScreenOn}
         captureWidth={"400"}
         captureHeight={"400"}
+      />
+      <MapContext.Provider
+        value={{
+          activeMarker,
+          markers,
+          toggleMarkerReached,
+          clearActiveMarker,
+          setMarkers,
+          setActiveMarker,
+          updateMarkerLabelName,
+          setMarkerDate,
+          setScreenOn,
+        }}
       >
-        {({onStartCapture}: any) => (
-          <>
-            <MapContext.Provider
-              value={{
-                activeMarker,
-                markers,
-                toggleMarkerReached,
-                clearActiveMarker,
-                setMarkers,
-                setActiveMarker,
-                updateMarkerLabelName,
-                setMarkerDate,
-                onStartCapture,
-              }}
-            >
-              {isInfoWindowOpen && (
-                <CustomInfoWindow
-                  activeMarker={activeMarker}
-                  setInfoWindowOpen={setInfoWindowOpen}
-                />
-              )}
-              <OptionsMenu />
-            </MapContext.Provider>
-            <ProgressCircle markers={markers} />
-            <Trash
-              isTrashActive={isTrashActive}
-              setInTrashArea={setInTrashArea}
-            />
-            {markers.map((mark: IMarker) => {
-              return (
-                <MarkerWithLabel
-                  key={mark.id}
-                  draggable={mark.draggable}
-                  position={mark.position}
-                  //using the length and a formula to center label on the marker
-                  labelAnchor={
-                    new google.maps.Point(
-                      centerMarkerLabel(mark.label.length),
-                      26,
-                    )
-                  }
-                  labelStyle={mark.labelStyle}
-                  icon={{
-                    origin: new google.maps.Point(0, 0),
-                    url: mark.url,
-                    scaledSize: new google.maps.Size(40, 60),
-                  }}
-                  date={mark.date}
-                  onClick={() => {
-                    setMarkerId(mark.id);
-                    setActiveMarker(mark);
-                    setInfoWindowOpen(true);
-                  }}
-                  onDragStart={() => {
-                    setMarkerId(mark.id);
-                    setActiveMarker(mark);
-                    setInfoWindowOpen(false);
-                  }}
-                  onDrag={enableTrash}
-                  onDragEnd={(e: MapEvent) => {
-                    // console.log(isTrashActive, inTrashArea);
-                    if (isTrashActive && inTrashArea) {
-                      message.info(`Marker has been deleted!`);
-                      deleteMarker(mark.id);
-                      updateAllMarkerLabels(mark.id);
-                      disableTrash();
-                      setInTrashArea(false);
-                      clearMarkerId();
-                    } else {
-                      updateMarkerPosition(mark.id, e);
-                      disableTrash();
-                      clearMarkerId();
-                    }
-                  }}
-                  className="marker"
-                  role="marker"
-                >
-                  <div>{mark.label}</div>
-                </MarkerWithLabel>
-              );
-            })}
-            {polylines.map((line: IPolyline) => {
-              return (
-                <Polyline
-                  key={line.id}
-                  path={line.path}
-                  options={{
-                    strokeColor: line.strokeColor,
-                    strokeWeight: line.strokeWeight,
-                    strokeOpacity: line.strokeOpacity,
-                    icons: line.icons,
-                  }}
-                />
-              );
-            })}
-          </>
+        {isInfoWindowOpen && (
+          <CustomInfoWindow
+            activeMarker={activeMarker}
+            setInfoWindowOpen={setInfoWindowOpen}
+          />
         )}
-      </ScreenCapture>
+        <OptionsMenu />
+      </MapContext.Provider>
+      <ProgressCircle markers={markers} />
+      <Trash
+        isTrashActive={isTrashActive}
+        setInTrashArea={setInTrashArea}
+      />
+      {markers.map((mark: IMarker) => {
+        return (
+          <MarkerWithLabel
+            key={mark.id}
+            draggable={mark.draggable}
+            position={mark.position}
+            //using the length and a formula to center label on the marker
+            labelAnchor={
+              new google.maps.Point(
+                centerMarkerLabel(mark.label.length),
+                26,
+              )
+            }
+            labelStyle={mark.labelStyle}
+            icon={{
+              origin: new google.maps.Point(0, 0),
+              url: mark.url,
+              scaledSize: new google.maps.Size(40, 60),
+            }}
+            date={mark.date}
+            onClick={() => {
+              setMarkerId(mark.id);
+              setActiveMarker(mark);
+              setInfoWindowOpen(true);
+            }}
+            onDragStart={() => {
+              setMarkerId(mark.id);
+              setActiveMarker(mark);
+              setInfoWindowOpen(false);
+            }}
+            onDrag={enableTrash}
+            onDragEnd={(e: MapEvent) => {
+              // console.log(isTrashActive, inTrashArea);
+              if (isTrashActive && inTrashArea) {
+                message.info(`Marker has been deleted!`);
+                deleteMarker(mark.id);
+                updateAllMarkerLabels(mark.id);
+                disableTrash();
+                setInTrashArea(false);
+                clearMarkerId();
+              } else {
+                updateMarkerPosition(mark.id, e);
+                disableTrash();
+                clearMarkerId();
+              }
+            }}
+            className="marker"
+            role="marker"
+          >
+            <div>{mark.label}</div>
+          </MarkerWithLabel>
+        );
+      })}
+      {polylines.map((line: IPolyline) => {
+        return (
+          <Polyline
+            key={line.id}
+            path={line.path}
+            options={{
+              strokeColor: line.strokeColor,
+              strokeWeight: line.strokeWeight,
+              strokeOpacity: line.strokeOpacity,
+              icons: line.icons,
+            }}
+          />
+        );
+      })}
     </GoogleMap>
   );
 });

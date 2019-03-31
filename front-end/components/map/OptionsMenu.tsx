@@ -33,13 +33,12 @@ const MainMenu = styled(Menu)`
 
 //@ts-ignore
 const OverlayMenu = props => {
-  const {onStartCapture} = useContext(MapContext);
+  const {setScreenOn} = useContext(MapContext);
   return (
     <MainMenu>
       <MenuItem
         onClick={() => {
-          onStartCapture();
-          console.log(onStartCapture, "test");
+          setScreenOn(true);
         }}
       >
         <Icon type="save" />

@@ -3,23 +3,20 @@ import "./screen.less";
 import {mapImageUrlGenerator} from "../helper-functions";
 
 interface Props {
-  children: ReactNode;
   lat: number;
   lng: number;
   captureWidth: string;
   captureHeight: string;
+  isScreenOn: boolean;
 }
 
 const ScreenCapture: React.SFC<Props> = ({
-  children,
   lat,
   lng,
   captureWidth,
+  isScreenOn,
   captureHeight,
 }) => {
-  const [on, setOn] = useState(true);
-  const [isMouseDown, setIsMouseDown] = useState(false);
-
   const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
@@ -29,16 +26,11 @@ const ScreenCapture: React.SFC<Props> = ({
     left: 0,
   });
 
-  const [imageURL, setImageURL] = useState("");
-  const ESCAPE_KEY = 27;
-
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
-    window.addEventListener("keyup", exitScreenCapture);
     return () => {
       window.removeEventListener("resize", handleWindowResize);
-      window.removeEventListener("keyup", exitScreenCapture);
     };
   }, []);
 
@@ -57,13 +49,6 @@ const ScreenCapture: React.SFC<Props> = ({
       height: windowHeight,
     });
   };
-  const exitScreenCapture = (e: KeyboardEvent) => {
-    if (e.keyCode === ESCAPE_KEY) {
-      setOn(false);
-    }
-  };
-  const handleStartCapture = () => setOn(true);
-
   const handleMouseMove = (e: MouseEvent) => {
     setCrossHairs({
       top: e.clientY,
@@ -71,43 +56,10 @@ const ScreenCapture: React.SFC<Props> = ({
     });
   };
 
-  const handleMouseDown = () => {
-    setIsMouseDown(true);
-  };
-  const handleMouseUp = () => {
-    setOn(false);
-    setIsMouseDown(false);
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-    mapImageUrlGenerator(
-      lat,
-      lng,
-      captureWidth,
-      captureHeight,
-      "png",
-      "roadmap",
-      //@ts-ignore
-      apiKey,
-    );
-  };
-
-  const renderChild = () => {
-    const props = {
-      onStartCapture: handleStartCapture,
-    };
-    if (typeof children === "function") return children(props);
-    return children;
-  };
-
-  if (!on) {
-    return renderChild();
-  } else {
+  const handleMouseUp = () => {};
+  if (isScreenOn) {
     return (
-      <div
-        onMouseMove={handleMouseMove}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-      >
-        {renderChild()}
+      <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
         <div className={`overlay`} />
         <div
           className="crosshairs"
@@ -127,6 +79,8 @@ const ScreenCapture: React.SFC<Props> = ({
         />
       </div>
     );
+  } else {
+    return null;
   }
 };
 

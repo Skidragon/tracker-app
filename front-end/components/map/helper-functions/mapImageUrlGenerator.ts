@@ -4,10 +4,11 @@ type ImageFormat = "png" | "jpg";
 
 type MapType = "roadmap";
 export default (
-  lat: string | number,
-  lng: string | number,
-  width: string | number,
-  height: string | number,
+  lat: number,
+  lng: number,
+  width: number,
+  height: number,
+  zoom: number,
   imgFormat: ImageFormat,
   mapType: MapType,
   apiKey: string,
@@ -16,8 +17,9 @@ export default (
 ) => {
   return `https://maps.googleapis.com/maps/api/staticmap?\
 center=${lat},${lng}&\
+size=${width}x${height}&\
+zoom=${zoom}&\
 format=${imgFormat}&\
 maptype=${mapType}&\
-size=${width}x${height}&\
 key=${apiKey}`;
 };
