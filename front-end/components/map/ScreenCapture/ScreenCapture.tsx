@@ -35,8 +35,10 @@ const ScreenCapture: React.SFC<Props> = ({
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
+    window.addEventListener("keyup", exitScreenCapture);
     return () => {
       window.removeEventListener("resize", handleWindowResize);
+      window.removeEventListener("keyup", exitScreenCapture);
     };
   }, []);
 
@@ -55,7 +57,11 @@ const ScreenCapture: React.SFC<Props> = ({
       height: windowHeight,
     });
   };
-
+  const exitScreenCapture = (e: KeyboardEvent) => {
+    if (e.keyCode === ESCAPE_KEY) {
+      setOn(false);
+    }
+  };
   const handleStartCapture = () => setOn(true);
 
   const handleMouseMove = (e: MouseEvent) => {
