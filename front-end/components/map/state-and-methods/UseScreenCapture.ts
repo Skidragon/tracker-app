@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, KeyboardEvent} from "react";
 import {MapEvent} from "../interfaces/index";
 import {mapImageUrlGenerator} from "../helper-functions/index";
 export default () => {
@@ -38,7 +38,7 @@ export default () => {
     });
   };
 
-  const exitScreenCapture = e => {
+  const exitScreenCapture = (e: KeyboardEvent) => {
     if (e.keyCode === ESCAPE_KEY) {
       setScreenOn(false);
     }
@@ -50,6 +50,7 @@ export default () => {
     setScreenOn,
     exitScreenCapture,
     //state
+    googleImageUrl,
     isScreenOn,
     screenLatLng: latLng,
   };

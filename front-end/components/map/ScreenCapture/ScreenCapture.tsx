@@ -1,4 +1,4 @@
-import {useEffect, useState, MouseEvent, ReactNode} from "react";
+import {useEffect, useState, MouseEvent} from "react";
 import "./screen.less";
 import {mapImageUrlGenerator} from "../helper-functions";
 
@@ -11,8 +11,6 @@ interface Props {
 }
 
 const ScreenCapture: React.SFC<Props> = ({
-  lat,
-  lng,
   captureWidth,
   isScreenOn,
   captureHeight,
