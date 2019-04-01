@@ -22,14 +22,15 @@ import {
   usePolyline,
   useInfoWindow,
   useScreenCapture,
+  useTrip,
 } from "./state-and-methods/index";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import {message} from "antd";
 import {MapLoadingElement} from "./MapLoadingElement";
 import {centerMarkerLabel} from "./helper-functions/index";
-import ScreenCapture from "../map/ScreenCapture/ScreenCapture";
 import SaveTripProcess from "./SaveTripProcess/SaveTripProcess";
 import StepsStatusBar from "./SaveTripProcess/StepsStatusBar";
+import TripModal from "./TripManager/TripModal";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -94,6 +95,13 @@ const MapComponent = compose(
     onEndScreenCapture,
     setCrossHairsPosition,
   } = useScreenCapture();
+
+  const {
+    //state
+    setTripModalOpen,
+    //methods
+    tripModalOpen,
+  } = useTrip();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
@@ -149,6 +157,7 @@ const MapComponent = compose(
           isScreenOn,
           crossHairs,
           setSaveTripStep,
+          setTripModalOpen,
         }}
       >
         {isInfoWindowOpen && (
@@ -167,6 +176,11 @@ const MapComponent = compose(
           setInTrashArea={setInTrashArea}
         />
       )}
+      <TripModal
+        isModalVisible={tripModalOpen}
+        setIsModalVisible={setTripModalOpen}
+        trips={[]}
+      />
       {markers.map((mark: IMarker) => {
         return (
           <MarkerWithLabel

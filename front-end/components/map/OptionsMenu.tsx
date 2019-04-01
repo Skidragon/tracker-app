@@ -33,7 +33,9 @@ const MainMenu = styled(Menu)`
 
 //@ts-ignore
 const OverlayMenu = props => {
-  const {setScreenOn, setSaveTripStep} = useContext(MapContext);
+  const {setScreenOn, setSaveTripStep, setTripModalOpen} = useContext(
+    MapContext,
+  );
   return (
     <MainMenu>
       <MenuItem
@@ -45,9 +47,13 @@ const OverlayMenu = props => {
         <Icon type="save" />
         Save Trip
       </MenuItem>
-      <MenuItem>
-        <Icon type="edit" />
-        Edit
+      <MenuItem
+        onClick={() => {
+          setTripModalOpen(true);
+        }}
+      >
+        <Icon type="bars" />
+        Trips
       </MenuItem>
       <MenuItem>
         <Icon type="user" />
