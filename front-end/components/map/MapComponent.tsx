@@ -28,6 +28,8 @@ import {message} from "antd";
 import {MapLoadingElement} from "./MapLoadingElement";
 import {centerMarkerLabel} from "./helper-functions/index";
 import ScreenCapture from "../map/ScreenCapture/ScreenCapture";
+import SaveTripProcess from "./SaveTripProcess/SaveTripProcess";
+import StepsStatusBar from "./SaveTripProcess/StepsStatusBar";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -79,25 +81,26 @@ const MapComponent = compose(
   } = useTrash();
   const {polylines, updateLines} = usePolyline();
   const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
-
+  const [saveTripStep, setSaveTripStep] = useState(-1);
   const {
     //state
     screenLatLng,
     isScreenOn,
+    crossHairs,
     //methods
     setScreenOn,
     setScreenLatLng,
-    exitScreenCapture,
     onEndScreenCapture,
+    setCrossHairsPosition,
   } = useScreenCapture();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
 
   useEffect(() => {
-    window.addEventListener("keyup", exitScreenCapture);
+    window.addEventListener("mousemove", setCrossHairsPosition);
     return () => {
-      window.removeEventListener("keyup", exitScreenCapture);
+      window.removeEventListener("mousemove", setCrossHairsPosition);
     };
   }, []);
   useEffect(() => {
@@ -119,11 +122,7 @@ const MapComponent = compose(
       }}
       defaultCenter={{lat: -34.397, lng: 150.644}}
     >
-      <ScreenCapture
-        isScreenOn={isScreenOn}
-        captureWidth={"400"}
-        captureHeight={"400"}
-      />
+      <StepsStatusBar step={saveTripStep} setStep={setSaveTripStep} />
       <MapContext.Provider
         value={{
           activeMarker,
@@ -135,6 +134,9 @@ const MapComponent = compose(
           updateMarkerLabelName,
           setMarkerDate,
           setScreenOn,
+          isScreenOn,
+          crossHairs,
+          setSaveTripStep,
         }}
       >
         {isInfoWindowOpen && (
@@ -143,6 +145,7 @@ const MapComponent = compose(
             setInfoWindowOpen={setInfoWindowOpen}
           />
         )}
+        {/* <SaveTripProcess step={saveTripStep} /> */}
         <OptionsMenu />
       </MapContext.Provider>
       <ProgressCircle markers={markers} />
