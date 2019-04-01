@@ -153,13 +153,15 @@ const MapComponent = compose(
           />
         )}
         <SaveTripProcess step={saveTripStep} />
-        <OptionsMenu />
+        {isScreenOn ? null : <OptionsMenu />}
       </MapContext.Provider>
-      <ProgressCircle markers={markers} />
-      <Trash
-        isTrashActive={isTrashActive}
-        setInTrashArea={setInTrashArea}
-      />
+      {isScreenOn ? null : <ProgressCircle markers={markers} />}
+      {isScreenOn ? null : (
+        <Trash
+          isTrashActive={isTrashActive}
+          setInTrashArea={setInTrashArea}
+        />
+      )}
       {markers.map((mark: IMarker) => {
         return (
           <MarkerWithLabel
