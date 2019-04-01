@@ -1,4 +1,4 @@
-import {useState, KeyboardEvent} from "react";
+import {useState, KeyboardEvent, MouseEvent} from "react";
 import {MapEvent} from "../interfaces/index";
 import {mapImageUrlGenerator} from "../helper-functions/index";
 export default () => {
@@ -8,9 +8,18 @@ export default () => {
     lat: 0,
     lng: 0,
   });
+  const [crossHairs, setCrossHairs] = useState({
+    top: 0,
+    left: 0,
+  });
 
   const ESCAPE_KEY = 27;
-
+  const setCrossHairsPosition = (e: MouseEvent) => {
+    setCrossHairs({
+      top: e.clientY,
+      left: e.clientX,
+    });
+  };
   const onEndScreenCapture = (
     captureWidth: number,
     captureHeight: number,
@@ -49,9 +58,11 @@ export default () => {
     setScreenLatLng,
     setScreenOn,
     exitScreenCapture,
+    setCrossHairsPosition,
     //state
     googleImageUrl,
     isScreenOn,
     screenLatLng: latLng,
+    crossHairs,
   };
 };

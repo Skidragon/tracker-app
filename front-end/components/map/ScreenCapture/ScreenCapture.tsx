@@ -1,27 +1,25 @@
-import {useEffect, useState, MouseEvent} from "react";
+import {useEffect, useState} from "react";
 import "./screen.less";
-import {mapImageUrlGenerator} from "../helper-functions";
 
 interface Props {
-  lat: number;
-  lng: number;
   captureWidth: string;
   captureHeight: string;
   isScreenOn: boolean;
+  crossHairs: {
+    top: number;
+    left: number;
+  };
 }
 
 const ScreenCapture: React.SFC<Props> = ({
   captureWidth,
   isScreenOn,
   captureHeight,
+  crossHairs,
 }) => {
   const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
-  });
-  const [crossHairs, setCrossHairs] = useState({
-    top: 0,
-    left: 0,
   });
 
   useEffect(() => {
@@ -47,17 +45,10 @@ const ScreenCapture: React.SFC<Props> = ({
       height: windowHeight,
     });
   };
-  const handleMouseMove = (e: MouseEvent) => {
-    setCrossHairs({
-      top: e.clientY,
-      left: e.clientX,
-    });
-  };
 
-  const handleMouseUp = () => {};
   if (isScreenOn) {
     return (
-      <div onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+      <>
         <div className={`overlay`} />
         <div
           className="crosshairs"
@@ -75,7 +66,7 @@ const ScreenCapture: React.SFC<Props> = ({
             height: captureHeight + "px",
           }}
         />
-      </div>
+      </>
     );
   } else {
     return null;
