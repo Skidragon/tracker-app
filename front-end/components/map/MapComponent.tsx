@@ -98,6 +98,13 @@ const MapComponent = compose(
   }, [markers]);
 
   useEffect(() => {
+    if (saveTripStep !== 1) {
+      setScreenOn(false);
+    } else {
+      setScreenOn(true);
+    }
+  }, [saveTripStep]);
+  useEffect(() => {
     window.addEventListener("mousemove", setCrossHairsPosition);
     return () => {
       window.removeEventListener("mousemove", setCrossHairsPosition);
@@ -145,7 +152,7 @@ const MapComponent = compose(
             setInfoWindowOpen={setInfoWindowOpen}
           />
         )}
-        {/* <SaveTripProcess step={saveTripStep} /> */}
+        <SaveTripProcess step={saveTripStep} />
         <OptionsMenu />
       </MapContext.Provider>
       <ProgressCircle markers={markers} />

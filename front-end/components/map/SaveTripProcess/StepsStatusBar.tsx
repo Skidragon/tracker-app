@@ -9,6 +9,7 @@ interface Props {
 }
 const StepsWrapper = styled.div`
   position: absolute;
+  z-index: 10000000;
   left: 3%;
   top: 22%;
 `;
@@ -39,17 +40,14 @@ const StepsStatusBar: React.SFC<Props> = ({step, setStep}) => {
             <Step
               title="Go to location"
               description="The location needs to be visible before taking snapshot."
-              onClick={() => setStep(0)}
             />
             <Step
               title="Take Snapshot"
               description="Creates a desired location image for trip."
-              onClick={() => setStep(1)}
             />
             <Step
               title="Finish Trip"
               description="Fill out the rest of the details then save."
-              onClick={() => setStep(2)}
             />
           </Steps>
           <StepButtonGroup>

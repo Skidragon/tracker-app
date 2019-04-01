@@ -1,22 +1,16 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import "./screen.less";
-
+import MapContext from "../../context/MapContext";
 interface Props {
   captureWidth: string;
   captureHeight: string;
-  isScreenOn: boolean;
-  crossHairs: {
-    top: number;
-    left: number;
-  };
 }
 
 const ScreenCapture: React.SFC<Props> = ({
   captureWidth,
-  isScreenOn,
   captureHeight,
-  crossHairs,
 }) => {
+  const {crossHairs} = useContext(MapContext);
   const [windowSize, setWindowSize] = useState({
     width: 0,
     height: 0,
@@ -46,31 +40,27 @@ const ScreenCapture: React.SFC<Props> = ({
     });
   };
 
-  if (isScreenOn) {
-    return (
-      <>
-        <div className={`overlay`} />
-        <div
-          className="crosshairs"
-          style={{
-            left: crossHairs.left + "px",
-            top: crossHairs.top + "px",
-          }}
-        />
-        <div
-          className="capture-region"
-          style={{
-            left: crossHairs.left + "px",
-            top: crossHairs.top + "px",
-            width: captureWidth + "px",
-            height: captureHeight + "px",
-          }}
-        />
-      </>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <>
+      <div className={`overlay`} />
+      <div
+        className="crosshairs"
+        style={{
+          left: crossHairs.left + "px",
+          top: crossHairs.top + "px",
+        }}
+      />
+      <div
+        className="capture-region"
+        style={{
+          left: crossHairs.left + "px",
+          top: crossHairs.top + "px",
+          width: captureWidth + "px",
+          height: captureHeight + "px",
+        }}
+      />
+    </>
+  );
 };
 
 export default ScreenCapture;

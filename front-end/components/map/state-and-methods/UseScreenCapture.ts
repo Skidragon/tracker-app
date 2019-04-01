@@ -38,7 +38,6 @@ export default () => {
     );
     console.log(url);
     setGoogleImageUrl(url);
-    setScreenOn(false);
   };
   const setScreenLatLng = (e: MapEvent) => {
     setLatLng({
