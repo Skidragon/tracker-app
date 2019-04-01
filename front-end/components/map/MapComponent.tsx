@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {compose, withProps} from "recompose";
 import {
   Marker as IMarker,
@@ -21,11 +21,16 @@ import {
   useTrash,
   usePolyline,
   useInfoWindow,
+  useScreenCapture,
+  useTrip,
 } from "./state-and-methods/index";
 import CustomInfoWindow from "./InfoWindow/InfoWindow";
 import {message} from "antd";
 import {MapLoadingElement} from "./MapLoadingElement";
 import {centerMarkerLabel} from "./helper-functions/index";
+import SaveTripProcess from "./SaveTripProcess/SaveTripProcess";
+import StepsStatusBar from "./SaveTripProcess/StepsStatusBar";
+import TripModal from "./TripManager/TripModal";
 // Google Maps API doc link: https://tomchentw.github.io/react-google-maps/
 const MapComponent = compose(
   withProps({
@@ -77,22 +82,67 @@ const MapComponent = compose(
   } = useTrash();
   const {polylines, updateLines} = usePolyline();
   const {isInfoWindowOpen, setInfoWindowOpen} = useInfoWindow();
+  const [saveTripStep, setSaveTripStep] = useState(-1);
+  const {
+    //state
+    screenLatLng,
+    isScreenOn,
+    crossHairs,
+    googleImageUrl,
+    //methods
+    setScreenOn,
+    setScreenLatLng,
+    onEndScreenCapture,
+    setCrossHairsPosition,
+  } = useScreenCapture();
+
+  const {
+    //state
+    setTripModalOpen,
+    //methods
+    tripModalOpen,
+  } = useTrip();
   useEffect(() => {
     updateLines(markers);
   }, [markers]);
 
+  useEffect(() => {
+    if (saveTripStep !== 1) {
+      setScreenOn(false);
+    } else {
+      setScreenOn(true);
+    }
+  }, [saveTripStep]);
+  useEffect(() => {
+    window.addEventListener("mousemove", setCrossHairsPosition);
+    return () => {
+      window.removeEventListener("mousemove", setCrossHairsPosition);
+    };
+  }, []);
+  useEffect(() => {
+    onEndScreenCapture(400, 400);
+  }, [screenLatLng]);
   return (
     <GoogleMap
       defaultZoom={6}
       onClick={e => {
-        addMarker(e);
-        setInfoWindowOpen(false);
+        if (!isScreenOn) {
+          addMarker(e);
+          setInfoWindowOpen(false);
+        } else {
+          setScreenLatLng(e);
+        }
       }}
       options={{
         disableDefaultUI: true,
       }}
       defaultCenter={{lat: -34.397, lng: 150.644}}
     >
+      <StepsStatusBar
+        step={saveTripStep}
+        setStep={setSaveTripStep}
+        googleImageUrl={googleImageUrl}
+      />
       <MapContext.Provider
         value={{
           activeMarker,
@@ -103,6 +153,11 @@ const MapComponent = compose(
           setActiveMarker,
           updateMarkerLabelName,
           setMarkerDate,
+          setScreenOn,
+          isScreenOn,
+          crossHairs,
+          setSaveTripStep,
+          setTripModalOpen,
         }}
       >
         {isInfoWindowOpen && (
@@ -111,12 +166,20 @@ const MapComponent = compose(
             setInfoWindowOpen={setInfoWindowOpen}
           />
         )}
+        <SaveTripProcess step={saveTripStep} />
+        {isScreenOn ? null : <OptionsMenu />}
       </MapContext.Provider>
-      <OptionsMenu />
-      <ProgressCircle markers={markers} />
-      <Trash
-        isTrashActive={isTrashActive}
-        setInTrashArea={setInTrashArea}
+      {isScreenOn ? null : <ProgressCircle markers={markers} />}
+      {isScreenOn ? null : (
+        <Trash
+          isTrashActive={isTrashActive}
+          setInTrashArea={setInTrashArea}
+        />
+      )}
+      <TripModal
+        isModalVisible={tripModalOpen}
+        setIsModalVisible={setTripModalOpen}
+        trips={[]}
       />
       {markers.map((mark: IMarker) => {
         return (
