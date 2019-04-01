@@ -1,13 +1,18 @@
 import {Steps, Card, Button} from "antd";
 import styled from "styled-components";
+import WrappedFinishTripForm from "./FinishTripForm";
 
 const Step = Steps.Step;
 
 interface Props {
   step: number;
   setStep: Function;
+  googleImageUrl: string;
 }
 const StepsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   z-index: 10000000;
   left: 3%;
@@ -16,6 +21,7 @@ const StepsWrapper = styled.div`
 const StepButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 const ExitBtn = styled(Button)`
   display: ${(props: {step: number}) =>
@@ -28,14 +34,28 @@ const PreviousBtn = styled(Button)`
 const NextBtn = styled(Button)`
   display: flex;
 `;
-
-const StepsStatusBar: React.SFC<Props> = ({step, setStep}) => {
+const PreviewImage = styled.img`
+  width: 200px;
+  height: 200px;
+  margin-bottom: 1.6rem;
+`;
+const StepsStatusBar: React.SFC<Props> = ({
+  step,
+  setStep,
+  googleImageUrl,
+}) => {
   if (step === -1) {
     return null;
   } else {
     return (
       <StepsWrapper>
-        <Card>
+        <Card
+          bodyStyle={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Steps direction="vertical" current={step}>
             <Step
               title="Go to location"
@@ -50,6 +70,13 @@ const StepsStatusBar: React.SFC<Props> = ({step, setStep}) => {
               description="Fill out the rest of the details then save."
             />
           </Steps>
+          {step === 1 ? (
+            <PreviewImage
+              src={googleImageUrl}
+              alt="Google Map Preview Image"
+            />
+          ) : null}
+          {step === 2 ? <WrappedFinishTripForm /> : null}
           <StepButtonGroup>
             <ExitBtn step={step} type="danger" onClick={() => setStep(-1)}>
               Exit

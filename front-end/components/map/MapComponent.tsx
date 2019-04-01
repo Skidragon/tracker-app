@@ -87,6 +87,7 @@ const MapComponent = compose(
     screenLatLng,
     isScreenOn,
     crossHairs,
+    googleImageUrl,
     //methods
     setScreenOn,
     setScreenLatLng,
@@ -129,7 +130,11 @@ const MapComponent = compose(
       }}
       defaultCenter={{lat: -34.397, lng: 150.644}}
     >
-      <StepsStatusBar step={saveTripStep} setStep={setSaveTripStep} />
+      <StepsStatusBar
+        step={saveTripStep}
+        setStep={setSaveTripStep}
+        googleImageUrl={googleImageUrl}
+      />
       <MapContext.Provider
         value={{
           activeMarker,
