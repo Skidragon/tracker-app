@@ -11,7 +11,7 @@ const TripFilter: React.SFC<Props> = () => {
   return (
     <Radio.Group value={status} onChange={handleStatusChange}>
       <Radio.Button value="active">Active</Radio.Button>
-      <Radio.Button value="archvied">Archived</Radio.Button>
+      <Radio.Button value="archived">Archived</Radio.Button>
       <Radio.Button value="following">Following</Radio.Button>
     </Radio.Group>
   );
